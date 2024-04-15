@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserReview;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 class ReviewController extends Controller
 {
     public function index()
@@ -20,6 +21,106 @@ class ReviewController extends Controller
                 'status' => 404,
                 'message' => 'Data reviewer tidak ditemukan',
             ], 404);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'rating' => 'required|int|max:5',
+            'komentar' => 'required|string|max:191',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        }else{
+
+            $review = UserReview::create([
+                'rating' => $request->rating,
+                'komentar' => $request->komentar,
+            ]);
+
+            if($review){
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data reviewer berhasil ditambahkan',
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Data review gagal ditambahkan',
+                ], 500);
+            }
+        }
+    }
+
+    public function show($id)
+    {
+        $review = UserReview::find($id);
+        if($review){
+            return response()->json([
+                'status' => 200,
+                'review' => $review,
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data reviewer tidak ditemukan',
+            ], 404);
+        }
+    }
+
+    public function edit($id)
+    {
+        $review = UserReview::find($id);
+        if($review){
+            return response()->json([
+                'status' => 200,
+                'review' => $review,
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data reviewer tidak ditemukan',
+            ], 404);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'rating' => 'required|int|max:5',
+            'komentar' => 'required|string|max:191',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        }else{
+            $review = UserReview::find($id);
+            if($review){ 
+                $review ->update([
+                'rating' => $request->rating,
+                'komentar' => $request->komentar,
+            ]);
+        }
+
+            if($review){
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data reviewer berhasil diubah',
+                ], 200);
+            }else{
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Data reviewer gagal diubah',
+                ], 500);
+            }
         }
     }
 }
