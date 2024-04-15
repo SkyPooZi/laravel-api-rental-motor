@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ListMotorController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DiskonController;
@@ -11,4 +12,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('diskon', [DiskonController::class, 'index']);
+
+
 Route::get('review', [ReviewController::class, 'index']);
+
+
+Route::get('list-motor', [ListMotorController::class, 'index']);
+

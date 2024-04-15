@@ -14,5 +14,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(TabelDiskonSeeder::class);
         $this->call(TabelReviewSeeder::class);
+        $this->call(TabelListMotor::class);
     }
 }
