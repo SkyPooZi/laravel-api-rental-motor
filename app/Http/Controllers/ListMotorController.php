@@ -142,5 +142,22 @@ class ListMotorController extends Controller
             }
         }
     }
+
+    public function destroy($id)
+    {
+        $listMotor = ListMotor::find($id);
+        if($listMotor){
+            $listMotor->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Data motor berhasil dihapus',
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data motor tidak ditemukan',
+            ], 404);
+        }
+    }
 }
 
