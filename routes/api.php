@@ -20,7 +20,7 @@ Route::put('diskon/{id}/edit', [DiskonController::class, 'update']);
 Route::get('review', [ReviewController::class, 'index']);
 Route::get('review', [ReviewController::class, 'store']);
 Route::get('review/{id}', [ReviewController::class, 'show']);
-Route::get('review/{id}/edit', [DiskonController::class, 'edit']);
+Route::get('review/{id}/edit', [ReviewController::class, 'edit']);
 Route::put('review/{id}/edit', [ReviewController::class, 'update']);
 
 Route::get('list-motor', [ListMotorController::class, 'index']);

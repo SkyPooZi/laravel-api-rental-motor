@@ -134,7 +134,7 @@ class DiskonController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'Data diskon tidak ada atau tidak ditemukan',
-                ], 500);
+                ], 404);
             }
         }
     }

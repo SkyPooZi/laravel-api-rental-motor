@@ -119,7 +119,7 @@ class ReviewController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'Data reviewer gagal diubah',
-                ], 500);
+                ], 404);
             }
         }
     }
