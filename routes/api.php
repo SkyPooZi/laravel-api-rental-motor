@@ -12,10 +12,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('diskon', [DiskonController::class, 'index']);
-
+Route::post('diskon', [DiskonController::class, 'store']);
+Route::get('diskon/{id}', [DiskonController::class, 'show']);
+Route::get('diskon/{id}/edit', [DiskonController::class, 'edit']);
+Route::put('diskon/{id}/edit', [DiskonController::class, 'update']);
 
 Route::get('review', [ReviewController::class, 'index']);
-
+Route::get('review', [ReviewController::class, 'store']);
+Route::get('review/{id}/edit', [ReviewController::class, 'show']);
+Route::get('review/{id}/edit', [ReviewController::class, 'update']);
 
 Route::get('list-motor', [ListMotorController::class, 'index']);
-
+Route::get('list-motor', [ListMotorController::class, 'store']);
+Route::get('list-motor/{id}/edit', [ListMotorController::class, 'show']);
+Route::get('list-motor/{id}/edit', [ListMotorController::class, 'update']);
