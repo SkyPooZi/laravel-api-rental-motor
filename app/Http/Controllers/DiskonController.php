@@ -134,8 +134,25 @@ class DiskonController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'Data diskon tidak ada atau tidak ditemukan',
-                ], 500);
+                ], 404);
             }
+        }
+    }
+
+    public function destroy($id)
+    {
+        $diskon = Diskon::find($id);
+        if($diskon){
+            $diskon->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Data diskon berhasil dihapus',
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data diskon tidak ditemukan',
+            ], 404);
         }
     }
 }

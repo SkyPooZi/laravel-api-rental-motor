@@ -119,8 +119,25 @@ class ReviewController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'Data reviewer gagal diubah',
-                ], 500);
+                ], 404);
             }
+        }
+    }
+
+    public function destroy($id)
+    {
+        $review = UserReview::find($id);
+        if($review){
+            $review->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => 'Data reviewer berhasil dihapus',
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data reviewer tidak ditemukan',
+            ], 404);
         }
     }
 }
