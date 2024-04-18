@@ -80,22 +80,6 @@ class DiskonController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $diskon = Diskon::find($id);
-        if($diskon){
-            return response()->json([
-                'status' => 200,
-                'diskon' => $diskon,
-            ], 200);
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data diskon tidak ditemukan',
-            ], 404);
-        }
-    }
-
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
@@ -115,17 +99,16 @@ class DiskonController extends Controller
 
             $diskon = Diskon::find($id);
             if($diskon){
-                $diskon->update([
-                    'kode_diskon' => $request->kode_diskon,
-                    'nama_diskon' => $request->nama_diskon,
-                    'persentase_diskon' => $request->persentase_diskon,
-                    'tanggal_mulai' => $request->tanggal_mulai,
-                    'tanggal_berakhir' => $request->tanggal_berakhir,
-                ]); 
-            }
+                $diskon->fill($request->only([
+                    'kode_diskon',
+                    'nama_diskon',
+                    'persentase_diskon',
+                    'tanggal_mulai',
+                    'tanggal_berakhir',
+                ]));
             
-
-            if($diskon){
+                $diskon->save();
+                
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data diskon berhasil diubah',

@@ -73,22 +73,6 @@ class ReviewController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $review = UserReview::find($id);
-        if($review){
-            return response()->json([
-                'status' => 200,
-                'review' => $review,
-            ], 200);
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data reviewer tidak ditemukan',
-            ], 404);
-        }
-    }
-
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -104,13 +88,13 @@ class ReviewController extends Controller
         }else{
             $review = UserReview::find($id);
             if($review){ 
-                $review ->update([
-                'rating' => $request->rating,
-                'komentar' => $request->komentar,
-            ]);
-        }
+                $review->fill($request->only([
+                    'rating',
+                    'komentar',
+                ]));
+            
+                $review->save();
 
-            if($review){
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data reviewer berhasil diubah',

@@ -4,30 +4,42 @@ use App\Http\Controllers\ListMotorController;
 use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use App\Http\Controllers\DiskonController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(["prefix" => "/user"], function(){
+    Route::get('/all', [UserController::class, 'index']);
+    Route::get('/detail/{id}', [UserController::class, 'show']);
+    Route::post('/create', [UserController::class, 'store']);
+    Route::get('/edit/{id}', [UserController::class, 'update']);
+    Route::get('/delete/{id}', [UserController::class, 'destroy']);
 });
 
-Route::get('diskon', [DiskonController::class, 'index']);
-Route::post('diskon', [DiskonController::class, 'store']);
-Route::get('diskon/{id}', [DiskonController::class, 'show']);
-Route::get('diskon/{id}/edit', [DiskonController::class, 'edit']);
-Route::put('diskon/{id}/edit', [DiskonController::class, 'update']);
-Route::delete('diskon/{id}/delete', [DiskonController::class, 'destroy']);
+Route::group(["prefix" => "/diskon"], function(){
+    Route::get('/all', [DiskonController::class, 'index']);
+    Route::get('/detail/{id}', [DiskonController::class, 'show']);
+    Route::post('/create', [DiskonController::class, 'store']);
+    Route::get('/edit/{id}', [DiskonController::class, 'update']);
+    Route::get('/delete/{id}', [DiskonController::class, 'destroy']);
+});
 
-Route::get('review', [ReviewController::class, 'index']);
-Route::post('review', [ReviewController::class, 'store']);
-Route::get('review/{id}', [ReviewController::class, 'show']);
-Route::get('review/{id}/edit', [ReviewController::class, 'edit']);
-Route::put('review/{id}/edit', [ReviewController::class, 'update']);
-Route::delete('review/{id}/delete', [ReviewController::class, 'destroy']);
+Route::group(["prefix" => "/review"], function(){
+    Route::get('/all', [ReviewController::class, 'index']);
+    Route::get('/detail/{id}', [ReviewController::class, 'show']);
+    Route::post('/create', [ReviewController::class, 'store']);
+    Route::get('/edit/{id}', [ReviewController::class, 'update']);
+    Route::get('/delete/{id}', [ReviewController::class, 'destroy']);
+});
 
-Route::get('list-motor', [ListMotorController::class, 'index']);
-Route::post('list-motor', [ListMotorController::class, 'store']);
-Route::get('list-motor/{id}', [ListMotorController::class, 'show']);
-Route::get('list-motor/{id}/edit', [ListMotorController::class, 'edit']);
-Route::put('list-motor/{id}/edit', [ListMotorController::class, 'update']);
-Route::delete('list-motor/{id}/delete', [ListMotorController::class, 'destroy']);
+Route::group(["prefix" => "/list-motor"], function(){
+    Route::get('/all', [ListMotorController::class, 'index']);
+    Route::get('/detail/{id}', [ListMotorController::class, 'show']);
+    Route::post('/create', [ListMotorController::class, 'store']);
+    Route::get('/edit/{id}', [ListMotorController::class, 'update']);
+    Route::get('/delete/{id}', [ListMotorController::class, 'destroy']);
+});

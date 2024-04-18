@@ -85,22 +85,6 @@ class ListMotorController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $listMotor = ListMotor::find($id);
-        if($listMotor){
-            return response()->json([
-                'status' => 200,
-                'ListMotor' => $listMotor,
-            ], 200);
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data motor tidak ditemukan',
-            ], 404);
-        }
-    }
-
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
@@ -121,15 +105,18 @@ class ListMotorController extends Controller
         }else{
             $listMotor = ListMotor::find($id);
             if($listMotor){
-                $listMotor->update([
-                    'tipe_motor' => $request->tipe_motor,
-                    'merk_motor' => $request->merk_motor,
-                    'nama_motor' => $request->nama_motor,
-                    'stok_motor' => $request->stok_motor,
-                    'status_motor' => $request->status_motor,
-                    'harga_motor_per_1_hari' => $request->harga_motor_per_1_hari,
-                    'harga_motor_per_1_minggu' => $request->harga_motor_per_1_minggu,
-                ]);
+                $listMotor->fill($request->only([
+                    'tipe_motor',
+                    'merk_motor',
+                    'nama_motor',
+                    'stok_motor',
+                    'status_motor',
+                    'harga_motor_per_1_hari',
+                    'harga_motor_per_1_minggu',
+                ]));
+            
+                $listMotor->save();
+
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data motor berhasil diupdate',
