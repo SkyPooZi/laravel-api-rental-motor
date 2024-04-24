@@ -27,7 +27,8 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'rating' => 'required|int|max:5',
+            'pengguna_id' => 'required',
+            'rating' => 'required|numeric|max:5',
             'komentar' => 'required|string|max:191',
         ]);
 
@@ -39,6 +40,7 @@ class ReviewController extends Controller
         }else{
 
             $review = UserReview::create([
+                'pengguna_id' => $request->pengguna_id,
                 'rating' => $request->rating,
                 'komentar' => $request->komentar,
             ]);
@@ -76,8 +78,8 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'rating' => 'required|int|max:5',
-            'komentar' => 'required|string|max:191',
+            'rating' => 'numeric|max:5',
+            'komentar' => 'string|max:191',
         ]);
 
         if($validator->fails()){

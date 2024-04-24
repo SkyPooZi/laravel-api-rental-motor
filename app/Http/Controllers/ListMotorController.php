@@ -88,13 +88,13 @@ class ListMotorController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'tipe_motor' => 'required|string|max:191',
-            'merk_motor' => 'required|string|max:191|',
-            'nama_motor' => 'required|string|max:191',
-            'stok_motor' => 'required|int',
-            'status_motor' => 'required|string|max:191',
-            'harga_motor_per_1_hari' => 'required|int',
-            'harga_motor_per_1_minggu' => 'required|int',
+            'tipe_motor' => 'string|max:191',
+            'merk_motor' => 'string|max:191|',
+            'nama_motor' => 'string|max:191',
+            'stok_motor' => 'int',
+            'status_motor' => 'string|max:191',
+            'harga_motor_per_1_hari' => 'int',
+            'harga_motor_per_1_minggu' => 'int',
         ]);
 
         if($validator->fails()){

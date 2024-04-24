@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_reviews', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('user_foreign_key');
+            $table->foreignId('pengguna_id');
             $table->double('rating');
             $table->string('komentar');
             $table->timestamps();
