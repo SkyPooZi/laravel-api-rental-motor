@@ -12,7 +12,12 @@ class UserReview extends Model
     protected $table = 'user_reviews';
     
     protected $fillable = [
+        'pengguna_id',
         'rating',
         'komentar',
     ];
+
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
 }

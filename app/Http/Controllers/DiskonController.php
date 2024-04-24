@@ -83,11 +83,11 @@ class DiskonController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'kode_diskon' => 'required|string|max:191',
-            'nama_diskon' => 'required|string|max:191|',
-            'persentase_diskon' => 'required|int|max:20',
-            'tanggal_mulai' => 'required|date',
-            'tanggal_berakhir' => 'required|date',
+            'kode_diskon' => 'string|max:191',
+            'nama_diskon' => 'string|max:191|',
+            'persentase_diskon' => 'int|max:20',
+            'tanggal_mulai' => 'date',
+            'tanggal_berakhir' => 'date',
         ]);
 
         if($validator->fails()){
