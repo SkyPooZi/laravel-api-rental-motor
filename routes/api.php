@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\MidtransController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -52,3 +53,5 @@ Route::group(["prefix" => "/review"], function(){
     Route::put('/edit/{id}', [ReviewController::class, 'update']);
     Route::delete('/delete/{id}', [ReviewController::class, 'destroy']);
 });
+
+Route::get('/payment', [MidtransController::class, 'showPaymentPage']);
