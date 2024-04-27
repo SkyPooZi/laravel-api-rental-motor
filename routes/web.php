@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DiskonController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MidtransController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/payment', [MidtransController::class, 'showPaymentPage']);
