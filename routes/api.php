@@ -7,6 +7,7 @@ use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MidtransController;
+use App\Http\Controllers\OtpController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,3 +56,5 @@ Route::group(["prefix" => "/review"], function(){
 });
 
 Route::get('/payment', [MidtransController::class, 'showPaymentPage']);
+
+Route::post('/send-otp', [OtpController::class, 'sendOtp'])->name('sendOtp');
