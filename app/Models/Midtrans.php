@@ -12,14 +12,16 @@ class Midtrans extends Model
     protected $table = 'midtrans';
 
     protected $fillable = [
+        'history_id',
         'no_pemesanan',
         'tanggal_pemesanan',
-        'pengguna_id',
         'tanggal_pembayaran',
         'metode_pembayaran',
-        'total_pembayaran_midtrans',
-        'motor_id',
-        'diskon_id',
-        'history_id',
+        'status_pembayaran',
+        'total_pemesanan',
     ];
+
+    public function history() {
+        return $this->belongsTo(History::class, 'history_id');
+    }
 }

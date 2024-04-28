@@ -28,10 +28,14 @@ class History extends Model
     ];
     
     public function user() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'pengguna_id');
     }
 
     public function listMotor() {
-        return $this->belongsTo(ListMotor::class);
+        return $this->belongsTo(ListMotor::class, 'motor_id');
+    }
+
+    public function diskon() {
+        return $this->belongsTo(Diskon::class, 'diskon_id');
     }
 }

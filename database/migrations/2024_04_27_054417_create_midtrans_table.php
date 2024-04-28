@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('midtrans', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('history_id');
+            $table->integer('no_pemesanan');
+            $table->date('tanggal_pemesanan');
+            $table->date('tanggal_pembayaran');
+            $table->string('metode_pembayaran');
+            $table->string('status_pembayaran');
+            $table->integer('total_pemesanan');
             $table->timestamps();
         });
     }

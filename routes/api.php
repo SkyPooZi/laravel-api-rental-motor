@@ -55,6 +55,7 @@ Route::group(["prefix" => "/review"], function(){
     Route::delete('/delete/{id}', [ReviewController::class, 'destroy']);
 });
 
-Route::get('/payment', [MidtransController::class, 'showPaymentPage']);
+Route::post('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
+Route::get('/invoice', [MidtransController::class, 'index']);
 
 Route::post('/send-otp', [OtpController::class, 'sendOtp'])->name('sendOtp');
