@@ -19,4 +19,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
+Route::get('/payment', [MidtransController::class, 'showPaymentPage']);
