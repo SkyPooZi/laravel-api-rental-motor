@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('list_motors', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
+            $table->string('gambar_motor');
+            $table->string('nama_motor');
             $table->string('tipe_motor');
             $table->string('merk_motor');
-            $table->string('nama_motor');
             $table->integer('stok_motor');
-            $table->string('status_motor');
             $table->integer('harga_motor_per_1_hari');
             $table->integer('harga_motor_per_1_minggu');
+            $table->string('fasilitas_motor');
+            $table->string('status_motor');
             $table->timestamps();
         });
     }

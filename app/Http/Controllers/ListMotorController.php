@@ -28,13 +28,15 @@ class ListMotorController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'tipe_motor' => 'required|string|max:191',
-            'merk_motor' => 'required|string|max:191|',
+            'gambar_motor' => 'required|string|max:191',
             'nama_motor' => 'required|string|max:191',
+            'tipe_motor' => 'required|string|max:191',
+            'merk_motor' => 'required|string|max:191',
             'stok_motor' => 'required|int',
-            'status_motor' => 'required|string|max:191',
             'harga_motor_per_1_hari' => 'required|int',
             'harga_motor_per_1_minggu' => 'required|int',
+            'fasilitas_motor' => 'required|string|max:191',
+            'status_motor' => 'required|string|max:191',
         ]);
 
         if($validator->fails()){
@@ -45,13 +47,15 @@ class ListMotorController extends Controller
         }else{
                 
                 $listMotor = ListMotor::create([
+                    'gambar_motor' => $request->gambar_motor,
+                    'nama_motor' => $request->nama_motor,
                     'tipe_motor' => $request->tipe_motor,
                     'merk_motor' => $request->merk_motor,
-                    'nama_motor' => $request->nama_motor,
                     'stok_motor' => $request->stok_motor,
-                    'status_motor' => $request->status_motor,
                     'harga_motor_per_1_hari' => $request->harga_motor_per_1_hari,
                     'harga_motor_per_1_minggu' => $request->harga_motor_per_1_minggu,
+                    'fasilitas_motor' => $request->fasilitas_motor,
+                    'status_motor' => $request->status_motor,
                 ]);
     
                 if($listMotor){
@@ -88,13 +92,15 @@ class ListMotorController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'tipe_motor' => 'string|max:191',
-            'merk_motor' => 'string|max:191|',
+            'gambar_motor' => 'string|max:191',
             'nama_motor' => 'string|max:191',
+            'tipe_motor' => 'string|max:191',
+            'merk_motor' => 'string|max:191',
             'stok_motor' => 'int',
-            'status_motor' => 'string|max:191',
             'harga_motor_per_1_hari' => 'int',
             'harga_motor_per_1_minggu' => 'int',
+            'fasilitas_motor' => 'string|max:191',
+            'status_motor' => 'string|max:191',
         ]);
 
         if($validator->fails()){
@@ -106,13 +112,15 @@ class ListMotorController extends Controller
             $listMotor = ListMotor::find($id);
             if($listMotor){
                 $listMotor->fill($request->only([
+                    'gambar_motor',
+                    'nama_motor',
                     'tipe_motor',
                     'merk_motor',
-                    'nama_motor',
                     'stok_motor',
-                    'status_motor',
                     'harga_motor_per_1_hari',
                     'harga_motor_per_1_minggu',
+                    'fasilitas_motor',
+                    'status_motor',
                 ]));
             
                 $listMotor->save();

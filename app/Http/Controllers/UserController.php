@@ -80,14 +80,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
+            'gambar' => 'string',
             'nama_pengguna' => 'string',
+            'nama_lengkap' => 'string',
             'email' => 'string',
             'password' => 'string',
-            'gambar' => 'string',
-            'nama_lengkap' => 'string',
             'nomor_hp' => 'string',
             'alamat' => 'text',
-            'role' => 'string',
+            'peran' => 'string',
         ]);
 
         if($validator->fails()) {
@@ -100,14 +100,14 @@ class UserController extends Controller
 
             if($user) {
                 $user->fill($request->only([
+                    'gambar',
                     'nama_pengguna',
+                    'nama_lengkap',
                     'email',
                     'password',
-                    'gambar',
-                    'nama_lengkap',
                     'nomor_hp',
                     'alamat',
-                    'role',
+                    'peran',
                 ]));
             
                 $user->save();

@@ -15,14 +15,14 @@ class User extends Authenticatable
     protected $table = 'users';
 
     protected $fillable = [
+        'gambar',
         'nama_pengguna',
+        'nama_lengkap',
         'email',
         'password',
-        'gambar',
-        'nama_lengkap',
         'nomor_hp',
         'alamat',
-        'role',
+        'peran',
         'kode',
         'point',
     ];

@@ -12,8 +12,9 @@ class UserReview extends Model
     protected $table = 'user_reviews';
     
     protected $fillable = [
+        'gambar',
         'pengguna_id',
-        'rating',
+        'penilaian',
         'komentar',
     ];
 
