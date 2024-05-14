@@ -27,8 +27,9 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
+            'gambar' => 'required|string|max:191',
             'pengguna_id' => 'required',
-            'rating' => 'required|numeric|max:5',
+            'penilaian' => 'required|numeric|max:5',
             'komentar' => 'required|string|max:191',
         ]);
 
@@ -40,8 +41,9 @@ class ReviewController extends Controller
         }else{
 
             $review = UserReview::create([
+                'gambar' => $request->gambar,
                 'pengguna_id' => $request->pengguna_id,
-                'rating' => $request->rating,
+                'penilaian' => $request->penilaian,
                 'komentar' => $request->komentar,
             ]);
 
@@ -78,7 +80,8 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'rating' => 'numeric|max:5',
+            'gambar' => 'string|max:191',
+            'penilaian' => 'numeric|max:5',
             'komentar' => 'string|max:191',
         ]);
 
@@ -91,7 +94,8 @@ class ReviewController extends Controller
             $review = UserReview::find($id);
             if($review){ 
                 $review->fill($request->only([
-                    'rating',
+                    'gambar',
+                    'penilaian',
                     'komentar',
                 ]));
             

@@ -42,6 +42,7 @@ class HistoryController extends Controller
             'diskon_id' => 'required',
             'metode_pembayaran' => 'required|string',
             'total_pembayaran' => 'required|int',
+            'status_history' => 'required|string',
         ]);
 
         if($validator->fails()) {
@@ -64,6 +65,7 @@ class HistoryController extends Controller
                 'diskon_id' => $request->diskon_id,
                 'metode_pembayaran' => $request->metode_pembayaran,
                 'total_pembayaran' => $request->total_pembayaran,
+                'status_history' => $request->status_history,
             ]);
     
             if($history) {
@@ -113,6 +115,7 @@ class HistoryController extends Controller
             'diskon_id' => '',
             'metode_pembayaran' => 'string',
             'total_pembayaran' => 'int',
+            'status_history' => 'string',
         ]);
 
         if($validator->fails()) {
@@ -138,6 +141,7 @@ class HistoryController extends Controller
                     'diskon_id',
                     'metode_pembayaran',
                     'total_pembayaran',
+                    'status_history',
                 ]));
             
                 $history->save();

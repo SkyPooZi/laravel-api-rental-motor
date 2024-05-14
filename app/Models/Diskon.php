@@ -12,10 +12,32 @@ class Diskon extends Model
     protected $table = 'diskons';
     
     protected $fillable = [
+        'gambar',
         'kode_diskon',
         'nama_diskon',
-        'persentase_diskon',
+        'potongan_harga',
         'tanggal_mulai',
-        'tanggal_berakhir'
+        'tanggal_selesai',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($diskon) {
+            $diskon->kode_diskon = self::generateRandomCode();
+        });
+    }
+
+    public static function generateRandomCode()
+    {
+        $letters = '';
+        for ($i = 0; $i < 5; $i++) {
+            $letters .= chr(rand(65, 90));
+        }
+
+        $numbers = rand(100, 999);
+
+        return $letters . $numbers;
+    }
 }

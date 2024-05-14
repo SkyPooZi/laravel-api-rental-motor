@@ -18,5 +18,3 @@ use App\Http\Controllers\MidtransController;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/payment', [MidtransController::class, 'showPaymentPage']);

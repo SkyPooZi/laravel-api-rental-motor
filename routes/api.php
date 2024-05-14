@@ -57,5 +57,6 @@ Route::group(["prefix" => "/review"], function(){
 
 Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
 Route::get('/invoice', [MidtransController::class, 'index']);
+Route::get('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
 
 Route::post('/send-otp', [OtpController::class, 'sendOtp'])->name('sendOtp');

@@ -28,11 +28,11 @@ class DiskonController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'kode_diskon' => 'required|string|max:191',
-            'nama_diskon' => 'required|string|max:191|',
-            'persentase_diskon' => 'required|int|max:20',
+            'gambar' => 'required|string',
+            'nama_diskon' => 'required|string|max:191',
+            'potongan_harga' => 'required|int|max:20',
             'tanggal_mulai' => 'required|date',
-            'tanggal_berakhir' => 'required|date',
+            'tanggal_selesai' => 'required|date',
         ]);
 
         if($validator->fails()){
@@ -43,11 +43,11 @@ class DiskonController extends Controller
         }else{
 
             $diskon = Diskon::create([
-                'kode_diskon' => $request->kode_diskon,
+                'gambar' => $request->gambar,
                 'nama_diskon' => $request->nama_diskon,
-                'persentase_diskon' => $request->persentase_diskon,
+                'potongan_harga' => $request->potongan_harga,
                 'tanggal_mulai' => $request->tanggal_mulai,
-                'tanggal_berakhir' => $request->tanggal_berakhir,
+                'tanggal_selesai' => $request->tanggal_selesai,
             ]);
 
             if($diskon){
@@ -83,11 +83,11 @@ class DiskonController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'kode_diskon' => 'string|max:191',
-            'nama_diskon' => 'string|max:191|',
-            'persentase_diskon' => 'int|max:20',
+            'gambar' => 'string',
+            'nama_diskon' => 'string|max:191',
+            'potongan_harga' => 'int|max:20',
             'tanggal_mulai' => 'date',
-            'tanggal_berakhir' => 'date',
+            'tanggal_selesai' => 'date',
         ]);
 
         if($validator->fails()){
@@ -100,11 +100,11 @@ class DiskonController extends Controller
             $diskon = Diskon::find($id);
             if($diskon){
                 $diskon->fill($request->only([
-                    'kode_diskon',
+                    'gambar',
                     'nama_diskon',
-                    'persentase_diskon',
+                    'potongan_harga',
                     'tanggal_mulai',
-                    'tanggal_berakhir',
+                    'tanggal_selesai',
                 ]));
             
                 $diskon->save();

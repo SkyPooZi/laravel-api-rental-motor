@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('diskon_id');
             $table->string('metode_pembayaran');
             $table->integer('total_pembayaran');
+            $table->string('status_history');
             $table->timestamps();
         });
     }

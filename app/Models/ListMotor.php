@@ -12,12 +12,14 @@ class ListMotor extends Model
     protected $table = 'list_motors';
 
     protected $fillable = [
+        'gambar_motor',
+        'nama_motor',
         'tipe_motor',
         'merk_motor',
-        'nama_motor',
         'stok_motor',
-        'status_motor',
         'harga_motor_per_1_hari',
         'harga_motor_per_1_minggu',
+        'fasilitas_motor',
+        'status_motor',
     ];
 }

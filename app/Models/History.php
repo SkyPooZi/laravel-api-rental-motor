@@ -25,6 +25,7 @@ class History extends Model
         'diskon_id',
         'metode_pembayaran',
         'total_pembayaran',
+        'status_history',
     ];
     
     public function user() {
