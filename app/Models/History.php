@@ -12,8 +12,11 @@ class History extends Model
     protected $table = 'histories';
 
     protected $fillable = [
-        'pengguna_id',
+        'nama_lengkap',
+        'email',
+        'no_telp',
         'akun_sosmed',
+        'alamat',
         'penyewa',
         'motor_id',
         'tanggal_booking',
@@ -27,10 +30,6 @@ class History extends Model
         'total_pembayaran',
         'status_history',
     ];
-    
-    public function user() {
-        return $this->belongsTo(User::class, 'pengguna_id');
-    }
 
     public function listMotor() {
         return $this->belongsTo(ListMotor::class, 'motor_id');

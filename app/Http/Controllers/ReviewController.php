@@ -10,7 +10,8 @@ class ReviewController extends Controller
 {
     public function index()
     {
-        $review = UserReview::all();
+        $review = UserReview::with(['user'])->get();
+
         if($review->count() > 0 ){
             return response()->json([
                 'status' => 200,
@@ -51,6 +52,15 @@ class ReviewController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data reviewer berhasil ditambahkan',
+                    'review' => [
+                        "id" => $review->id,
+                        "gambar" => $review->gambar,
+                        "pengguna_id" => $review->pengguna_id,
+                        "penilaian" => $review->penilaian,
+                        "komentar" => $review->komentar,
+                        "updated_at" => $review->updated_at,
+                        "created_at"=> $review->created_at,
+                    ],
                 ], 200);
             }else{
                 return response()->json([
@@ -63,7 +73,8 @@ class ReviewController extends Controller
 
     public function show($id)
     {
-        $review = UserReview::find($id);
+        $review = UserReview::with(['user'])->find($id);
+        
         if($review){
             return response()->json([
                 'status' => 200,
@@ -104,6 +115,7 @@ class ReviewController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data reviewer berhasil diubah',
+                    'review' => $review,
                 ], 200);
             }else{
                 return response()->json([
@@ -122,6 +134,7 @@ class ReviewController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Data reviewer berhasil dihapus',
+                'review' => $review,
             ], 200);
         }else{
             return response()->json([

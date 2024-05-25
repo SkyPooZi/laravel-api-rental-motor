@@ -13,8 +13,11 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengguna_id');
+            $table->string('nama_lengkap');
+            $table->string('email')->unique();
+            $table->string('no_telp', 20);
             $table->string('akun_sosmed');
+            $table->text('alamat');
             $table->string('penyewa');
             $table->foreignId('motor_id');
             $table->string('tanggal_booking');

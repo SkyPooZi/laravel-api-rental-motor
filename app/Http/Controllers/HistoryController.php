@@ -11,12 +11,12 @@ class HistoryController extends Controller
 {
     public function index()
     {
-        $history = History::all();
+        $history = History::with(['listMotor', 'diskon'])->get();
 
         if($history->count() > 0) {
             return response()->json([
                 'status' => 200,
-                'History' => $history,
+                'history' => $history,
             ], 200);
         } else {
             return response()->json([
@@ -29,8 +29,11 @@ class HistoryController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'pengguna_id' => 'required',
-            'akun_sosmed' => 'required|string',
+            'nama_lengkap' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:histories,email|max:255',
+            'no_telp' => 'required|string|max:20',
+            'akun_sosmed' => 'required|string|max:255',
+            'alamat' => 'required|string',
             'penyewa' => 'required|string',
             'motor_id' => 'required',
             'tanggal_booking' => 'required|string',
@@ -52,8 +55,11 @@ class HistoryController extends Controller
             ], 422);
         } else {
             $history = History::create([
-                'pengguna_id' => $request->pengguna_id,
+                'nama_lengkap' => $request->nama_lengkap,
+                'email' => $request->email,
+                'no_telp' => $request->no_telp,
                 'akun_sosmed' => $request->akun_sosmed,
+                'alamat' => $request->alamat,
                 'penyewa' => $request->penyewa,
                 'motor_id' => $request->motor_id,
                 'tanggal_booking' => $request->tanggal_booking,
@@ -72,6 +78,28 @@ class HistoryController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data history user berhasil ditambahkan',
+                    'history' => [
+                        "id" => $history->id,
+                        "nama_lengkap" => $history->nama_lengkap,
+                        "email" => $history->email,
+                        "no_telp" => $history->no_telp,
+                        "akun_sosmed" => $history->akun_sosmed,
+                        "alamat" => $history->alamat,
+                        "penyewa" => $history->penyewa,
+                        "motor_id" => $history->motor_id,
+                        "tanggal_booking" => $history->tanggal_booking,
+                        "keperluan_menyewa" => $history->keperluan_menyewa,
+                        "penerimaan_motor" => $history->penerimaan_motor,
+                        "nama_kontak_darurat" => $history->nama_kontak_darurat,
+                        "nomor_kontak_darurat" => $history->nomor_kontak_darurat,
+                        "hubungan_dengan_kontak_darurat" => $history->hubungan_dengan_kontak_darurat,
+                        "diskon_id" => $history->diskon_id,
+                        "metode_pembayaran" => $history->metode_pembayaran,
+                        "total_pembayaran" => $history->total_pembayaran,
+                        "status_history" => $history->status_history,
+                        "updated_at" => $history->updated_at,
+                        "created_at" => $history->created_at,
+                    ],
                 ], 200);
             } else {
                 return response()->json([
@@ -84,12 +112,12 @@ class HistoryController extends Controller
 
     public function show($id)
     {
-        $history = History::find($id);
+        $history = History::with(['listMotor', 'diskon'])->find($id);
 
         if($history) {
             return response()->json([
                 'status' => 200,
-                'History' => $history,
+                'history' => $history,
             ], 200);
         } else {
             return response()->json([
@@ -102,8 +130,11 @@ class HistoryController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'pengguna_id' => '',
+            'nama_lengkap' => 'string',
+            'email' => 'string',
+            'no_telp' => 'string',
             'akun_sosmed' => 'string',
+            'alamat' => 'string',
             'penyewa' => 'string',
             'motor_id' => '',
             'tanggal_booking' => 'string',
@@ -128,8 +159,11 @@ class HistoryController extends Controller
 
             if($history) {
                 $history->fill($request->only([
-                    'pengguna_id',
+                    'nama_lengkap',
+                    'email',
+                    'no_telp',
                     'akun_sosmed',
+                    'alamat',
                     'penyewa',
                     'motor_id',
                     'tanggal_booking',
@@ -149,6 +183,7 @@ class HistoryController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data history user berhasil diupdate',
+                    'history' => $history,
                 ], 200);
             } else {
                 return response()->json([
@@ -169,6 +204,7 @@ class HistoryController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Data history user berhasil dihapus',
+                'history' => $history,
             ], 200);
         } else {
             return response()->json([

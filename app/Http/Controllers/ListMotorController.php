@@ -12,10 +12,11 @@ class ListMotorController extends Controller
     public function index()
     {
         $listMotor = ListMotor::all();
+
         if($listMotor->count() > 0 ){
             return response()->json([
                 'status' => 200,
-                'ListMotor' => $listMotor,
+                'listMotor' => $listMotor,
             ], 200);
         } else {
             return response()->json([
@@ -62,6 +63,20 @@ class ListMotorController extends Controller
                     return response()->json([
                         'status' => 200,
                         'message' => 'Data motor berhasil ditambahkan',
+                        'listMotor' => [
+                            "id" => $listMotor->id,
+                            "gambar_motor" => $listMotor->gambar_motor,
+                            "nama_motor" => $listMotor->nama_motor,
+                            "tipe_motor" => $listMotor->tipe_motor,
+                            "merk_motor" => $listMotor->merk_motor,
+                            "stok_motor" => $listMotor->stok_motor,
+                            "harga_motor_per_1_hari" => $listMotor->harga_motor_per_1_hari,
+                            "harga_motor_per_1_minggu" => $listMotor->harga_motor_per_1_minggu,
+                            "fasilitas_motor" => $listMotor->fasilitas_motor,
+                            "status_motor" => $listMotor->status_motor,
+                            "updated_at" => $listMotor->updated_at,
+                            "created_at" => $listMotor->created_at,
+                        ],
                     ], 200);
                 }else{
                     return response()->json([
@@ -79,7 +94,7 @@ class ListMotorController extends Controller
         if($listMotor){
             return response()->json([
                 'status' => 200,
-                'ListMotor' => $listMotor,
+                'listMotor' => $listMotor,
             ], 200);
         }else{
             return response()->json([
@@ -128,6 +143,7 @@ class ListMotorController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data motor berhasil diupdate',
+                    'listMotor' => $listMotor,
                 ], 200);
             }else{
                 return response()->json([
@@ -141,11 +157,13 @@ class ListMotorController extends Controller
     public function destroy($id)
     {
         $listMotor = ListMotor::find($id);
+
         if($listMotor){
             $listMotor->delete();
             return response()->json([
                 'status' => 200,
                 'message' => 'Data motor berhasil dihapus',
+                'listMotor' => $listMotor,
             ], 200);
         }else{
             return response()->json([

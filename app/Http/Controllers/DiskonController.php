@@ -12,6 +12,7 @@ class DiskonController extends Controller
     public function index()
     {
         $diskon = Diskon::all();
+
         if($diskon->count() > 0 ){
             return response()->json([
                 'status' => 200,
@@ -54,6 +55,17 @@ class DiskonController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data diskon berhasil ditambahkan',
+                    'diskon' => [
+                        "id" => $diskon->id,
+                        "gambar" => $diskon->gambar,
+                        "nama_diskon" => $diskon->nama_diskon,
+                        "potongan_harga" => $diskon->potongan_harga,
+                        "tanggal_mulai" => $diskon->tanggal_mulai,
+                        "tanggal_selesai" => $diskon->tanggal_selesai,
+                        "kode_diskon" => $diskon->kode_diskon,
+                        "updated_at" => $diskon->updated_at,
+                        "created_at" => $diskon->created_at,
+                    ],
                 ], 200);
             }else{
                 return response()->json([
@@ -112,6 +124,7 @@ class DiskonController extends Controller
                 return response()->json([
                     'status' => 200,
                     'message' => 'Data diskon berhasil diubah',
+                    'diskon' => $diskon,
                 ], 200);
             }else{
                 return response()->json([
@@ -130,6 +143,7 @@ class DiskonController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Data diskon berhasil dihapus',
+                'diskon' => $diskon,
             ], 200);
         }else{
             return response()->json([

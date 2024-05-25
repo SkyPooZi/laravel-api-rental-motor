@@ -14,12 +14,12 @@ class MidtransController extends Controller
 {
     public function index()
     {
-        $midtrans = Midtrans::all();
+        $midtrans = Midtrans::with(['history'])->get();;
 
         if ($midtrans->count() > 0) {
             return response()->json([
                 'status' => 200,
-                'Midtrans' => $midtrans,
+                'midtrans' => $midtrans,
             ], 200);
         } else {
             return response()->json([
@@ -49,14 +49,6 @@ class MidtransController extends Controller
             ], 404);
         }
 
-        $user = $history->user;
-        if (!$user) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'Data user tidak ditemukan',
-            ], 404);
-        }
-
         $listMotor = $history->listMotor;
         if (!$listMotor) {
             return response()->json([
@@ -79,16 +71,16 @@ class MidtransController extends Controller
                 'gross_amount' => $history->total_pembayaran,
             ],
             'customer_details' => [
-                'name' => $user->nama_pengguna,
-                'phone' => $user->nomor_hp,
-                'email' => $user->email,
-                'address' => $user->alamat,
+                'name' => $history->nama_pengguna,
+                'phone' => $history->nomor_hp,
+                'email' => $history->email,
+                'address' => $history->alamat,
             ],
             'shipping_details' => [
-                'name' => $user->nama_pengguna,
-                'phone' => $user->nomor_hp,
-                'email' => $user->email,
-                'address' => $user->alamat,
+                'name' => $history->nama_pengguna,
+                'phone' => $history->nomor_hp,
+                'email' => $history->email,
+                'address' => $history->alamat,
             ],
             'product_details' => [
                 'product_id' => $history->motor_id,
@@ -100,7 +92,7 @@ class MidtransController extends Controller
         ];
 
         $midtrans = Midtrans::create([
-            'history_id' => $request->history_id,
+            'history_id' => $request->id,
             'no_pemesanan' => $order_id,
             'tanggal_pemesanan' => $history->created_at,
             'tanggal_pembayaran' => now(),
@@ -124,6 +116,7 @@ class MidtransController extends Controller
             return response()->json([
                 'status' => 200,
                 'message' => 'Status pembayaran berhasil diperbarui',
+                'midtrans' => $midtrans,
             ], 200);
         } else {
             return response()->json([
