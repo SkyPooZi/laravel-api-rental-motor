@@ -26,7 +26,7 @@ class OTPController extends Controller
             // Send OTP via email
             Mail::to($request->email)->send(new OtpMail($mailData));
     
-            return response()->json(['message' => 'OTP has been sent to your email.']);
+            return response()->json(['message' => 'OTP has been sent to your email.', 'OTP' => $otp]);
         } catch (\Exception $e) {
             return response()->json(['message' => 'Error: ' . $e->getMessage()], 500);
         }
