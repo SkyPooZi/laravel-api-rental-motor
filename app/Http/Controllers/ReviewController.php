@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\UserReview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+
 class ReviewController extends Controller
 {
     public function index()
@@ -28,7 +30,7 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'required|string|max:191',
+            'gambar' => 'required|file|image|max:2048',
             'pengguna_id' => 'required',
             'penilaian' => 'required|numeric|max:5',
             'komentar' => 'required|string|max:191',
@@ -41,8 +43,13 @@ class ReviewController extends Controller
             ], 422);
         }else{
 
+            $gambar = null;
+            if ($request->hasFile('gambar')) {
+                $gambar = $request->file('gambar')->store('images', 'public');
+            }
+
             $review = UserReview::create([
-                'gambar' => $request->gambar,
+                'gambar' => $gambar,
                 'pengguna_id' => $request->pengguna_id,
                 'penilaian' => $request->penilaian,
                 'komentar' => $request->komentar,
@@ -91,7 +98,7 @@ class ReviewController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'string|max:191',
+            'gambar' => 'file|image|max:2048',
             'penilaian' => 'numeric|max:5',
             'komentar' => 'string|max:191',
         ]);
@@ -103,9 +110,15 @@ class ReviewController extends Controller
             ], 422);
         }else{
             $review = UserReview::find($id);
-            if($review){ 
+            if($review){
+                if ($request->hasFile('gambar')) {
+                    if ($review->gambar) {
+                        Storage::disk('public')->delete($review->gambar);
+                    }
+                    $review->gambar = $request->file('gambar')->store('images', 'public');
+                }
+
                 $review->fill($request->only([
-                    'gambar',
                     'penilaian',
                     'komentar',
                 ]));
