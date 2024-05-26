@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Diskon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class DiskonController extends Controller
 {
@@ -29,7 +30,7 @@ class DiskonController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'required|string',
+            'gambar' => 'required|file|image|max:2048',
             'nama_diskon' => 'required|string|max:191',
             'potongan_harga' => 'required|int|max:20',
             'tanggal_mulai' => 'required|date',
@@ -43,8 +44,13 @@ class DiskonController extends Controller
             ], 422);
         }else{
 
+            $gambar = null;
+            if ($request->hasFile('gambar')) {
+                $gambar = $request->file('gambar')->store('images', 'public');
+            }
+
             $diskon = Diskon::create([
-                'gambar' => $request->gambar,
+                'gambar' => $gambar,
                 'nama_diskon' => $request->nama_diskon,
                 'potongan_harga' => $request->potongan_harga,
                 'tanggal_mulai' => $request->tanggal_mulai,
@@ -95,7 +101,7 @@ class DiskonController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'string',
+            'gambar' => 'file|image|max:2048',
             'nama_diskon' => 'string|max:191',
             'potongan_harga' => 'int|max:20',
             'tanggal_mulai' => 'date',
@@ -111,8 +117,14 @@ class DiskonController extends Controller
 
             $diskon = Diskon::find($id);
             if($diskon){
+                if ($request->hasFile('gambar')) {
+                    if ($diskon->gambar) {
+                        Storage::disk('public')->delete($diskon->gambar);
+                    }
+                    $diskon->gambar = $request->file('gambar')->store('images', 'public');
+                }
+
                 $diskon->fill($request->only([
-                    'gambar',
                     'nama_diskon',
                     'potongan_harga',
                     'tanggal_mulai',

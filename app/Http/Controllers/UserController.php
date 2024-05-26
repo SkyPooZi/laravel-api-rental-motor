@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -139,11 +140,9 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'string',
+            'gambar' => 'file|image|max:2048',
             'nama_pengguna' => 'string',
             'nama_lengkap' => 'string',
-            'email' => 'string|email|unique:users,email,'.$id,
-            'password' => 'string',
             'nomor_hp' => 'string',
             'alamat' => 'string',
             'peran' => 'string',
@@ -158,20 +157,20 @@ class UserController extends Controller
             $user = User::find($id);
 
             if($user) {
+                if ($request->hasFile('gambar')) {
+                    if ($user->gambar) {
+                        Storage::disk('public')->delete($user->gambar);
+                    }
+                    $user->gambar = $request->file('gambar')->store('images', 'public');
+                }
+
                 $user->fill($request->only([
-                    'gambar',
                     'nama_pengguna',
                     'nama_lengkap',
-                    'email',
-                    'password',
                     'nomor_hp',
                     'alamat',
                     'peran',
                 ]));
-
-                if ($request->filled('password')) {
-                    $user->password = Hash::make($request->password);
-                }
             
                 $user->save();
 
@@ -184,6 +183,47 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 404,
                     'message' => 'Data user tidak ditemukan',
+                ], 404);
+            }
+        }
+    }
+
+    public function updateAccount(Request $request, $id)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'string|email|unique:users,email,'.$id,
+            'password' => 'string',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        } else {
+            $user = User::find($id);
+
+            if($user) {
+                $user->fill($request->only([
+                    'email',
+                    'password',
+                ]));
+
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->password);
+                }
+            
+                $user->save();
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data akun user berhasil diupdate',
+                    'user' => $user,
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Data akun user tidak ditemukan',
                 ], 404);
             }
         }
