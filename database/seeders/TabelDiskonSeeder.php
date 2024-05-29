@@ -14,19 +14,27 @@ class TabelDiskonSeeder extends Seeder
     public function run(): void
     {
        Diskon::create([
-            'kode_diskon' => 'ABC123',
+            'gambar' => 'images/diskon_awal_tahun.jpg',
             'nama_diskon' => 'Diskon Awal Tahun',
-            'persentase_diskon' => 10,
+            'potongan_harga' => 10,
             'tanggal_mulai' => '2024-01-01',
-            'tanggal_berakhir' => '2024-01-31'
+            'tanggal_selesai' => '2024-01-31',
         ]);
 
         Diskon::create([
-            'kode_diskon' => 'DEF456',
+            'gambar' => 'images/diskon_idul_fitri.jpg',
+            'nama_diskon' => 'Diskon Hari Raya Idul Fitri',
+            'potongan_harga' => 15,
+            'tanggal_mulai' => '2024-06-01',
+            'tanggal_selesai' => '2024-06-30',
+        ]);
+
+        Diskon::create([
+            'gambar' => 'images/diskon_akhir_tahun.jpg',
             'nama_diskon' => 'Diskon Akhir Tahun',
-            'persentase_diskon' => 20,
+            'potongan_harga' => 20,
             'tanggal_mulai' => '2024-12-01',
-            'tanggal_berakhir' => '2024-12-31'
+            'tanggal_selesai' => '2024-12-31',
         ]);
     }
 }
