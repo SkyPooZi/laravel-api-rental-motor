@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -62,6 +63,8 @@ class UserController extends Controller
                         "nama_lengkap" => null,
                         "email" => $user->email,
                         "password" => $hashedPassword,
+                        "google_id" => null,
+                        "facebook_id" => null,
                         "nomor_hp" => null,
                         "alamat" => null,
                         "peran" => "user",
@@ -118,6 +121,126 @@ class UserController extends Controller
             'access_token' => $token,
             'user' => $user,
         ], 200);
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+
+            $user = User::where('email', $googleUser->getEmail())->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'gambar' => $googleUser->getAvatar(),
+                    'nama_pengguna' => $googleUser->getName(),
+                    'email' => $googleUser->getEmail(),
+                    'password' => null,
+                    'google_id' => $googleUser->getId(),
+                ]);
+
+                $token = $user->createToken('auth_token')->plainTextToken;
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Register account google successful',
+                    'access_token' => $token,
+                    'user' => [
+                        "id" => $user->id,
+                        "gambar" => $user->gambar,
+                        "nama_pengguna" => $user->nama_pengguna,
+                        "nama_lengkap" => null,
+                        "email" => $user->email,
+                        "password" => null,
+                        "google_id" => $user->google_id,
+                        "facebook_id" => null,
+                        "nomor_hp" => null,
+                        "alamat" => null,
+                        "peran" => "user",
+                        "kode" => $user->kode,
+                        "point" => $user->point,
+                        "created_at" => $user->created_at,
+                        "updated_at" => $user->updated_at
+                    ],
+                ], 200);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login account google successful',
+                'access_token' => $token,
+                'user' => $user,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Unable to login, try again later.'], 500);
+        }
+    }
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        try {
+            $facebookUser = Socialite::driver('facebook')->user();
+
+            $user = User::where('email', $facebookUser->getEmail())->first();
+
+            if (!$user) {
+                $user = User::create([
+                    'gambar' => $facebookUser->getAvatar(),
+                    'nama_pengguna' => $facebookUser->getName(),
+                    'email' => $facebookUser->getEmail(),
+                    'password' => null,
+                    'facebook_id' => $facebookUser->getId(),
+                ]);
+
+                $token = $user->createToken('auth_token')->plainTextToken;
+
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Register account facebook successful',
+                    'access_token' => $token,
+                    'user' => [
+                        "id" => $user->id,
+                        "gambar" => $user->gambar,
+                        "nama_pengguna" => $user->nama_pengguna,
+                        "nama_lengkap" => null,
+                        "email" => $user->email,
+                        "password" => null,
+                        "google_id" => null,
+                        "facebook_id" => $user->facebook_id,
+                        "nomor_hp" => null,
+                        "alamat" => null,
+                        "peran" => "user",
+                        "kode" => $user->kode,
+                        "point" => $user->point,
+                        "created_at" => $user->created_at,
+                        "updated_at" => $user->updated_at
+                    ],
+                ], 200);
+            }
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Login account facebook successful',
+                'access_token' => $token,
+                'user' => $user,
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => 'Unable to login, try again later.'], 500);
+        }
     }
 
     public function show($id)

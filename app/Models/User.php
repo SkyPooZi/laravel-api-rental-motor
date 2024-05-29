@@ -20,6 +20,8 @@ class User extends Authenticatable
         'nama_lengkap',
         'email',
         'password',
+        'google_id',
+        'facebook_id',
         'nomor_hp',
         'alamat',
         'peran',

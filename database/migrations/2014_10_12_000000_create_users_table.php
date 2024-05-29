@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('nama_lengkap')->nullable();
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('google_id')->nullable();
+            $table->string('facebook_id')->nullable();
             $table->string('nomor_hp', 20)->nullable();
             $table->text('alamat')->nullable();
             $table->string('peran')->default('user');
