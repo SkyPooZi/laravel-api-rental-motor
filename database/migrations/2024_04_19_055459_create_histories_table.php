@@ -20,7 +20,8 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('penyewa');
             $table->foreignId('motor_id');
-            $table->string('tanggal_booking');
+            $table->date('tanggal_mulai');
+            $table->date('tanggal_selesai');
             $table->string('keperluan_menyewa');
             $table->string('penerimaan_motor');
             $table->string('nama_kontak_darurat');
