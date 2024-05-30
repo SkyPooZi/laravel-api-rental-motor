@@ -132,10 +132,10 @@ class ListMotorController extends Controller
             $listMotor = ListMotor::find($id);
             if($listMotor){
                 if ($request->hasFile('gambar_motor')) {
-                    if ($listMotor->gambar) {
-                        Storage::disk('public')->delete($listMotor->gambar);
+                    if ($listMotor->gambar_motor) {
+                        Storage::disk('public')->delete($listMotor->gambar_motor);
                     }
-                    $listMotor->gambar = $request->file('gambar_motor')->store('images', 'public');
+                    $listMotor->gambar_motor = $request->file('gambar_motor')->store('images', 'public');
                 }
 
                 $listMotor->fill($request->only([
