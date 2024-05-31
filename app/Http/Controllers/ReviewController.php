@@ -32,7 +32,7 @@ class ReviewController extends Controller
         $validator = Validator::make($request->all(), [
             'gambar' => 'required|file|image|max:2048',
             'pengguna_id' => 'required',
-            'penilaian' => 'required|numeric|max:5',
+            'penilaian' => 'required|int|max:5',
             'komentar' => 'required|string|max:191',
         ]);
 
@@ -99,7 +99,7 @@ class ReviewController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'gambar' => 'file|image|max:2048',
-            'penilaian' => 'numeric|max:5',
+            'penilaian' => 'int|max:5',
             'komentar' => 'string|max:191',
         ]);
 

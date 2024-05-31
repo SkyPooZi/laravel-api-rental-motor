@@ -17,11 +17,14 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/login/google', [UserController::class, 'redirectToGoogle']);
-Route::get('/login/google/callback', [UserController::class, 'handleGoogleCallback']);
-Route::get('/login/facebook', [UserController::class, 'redirectToFacebook']);
-Route::get('/login/facebook/callback', [UserController::class, 'handleFacebookCallback']);
 Route::post('/user/create', [UserController::class, 'store']);
+
+Route::middleware(['web'])->group(function () {
+    Route::get('/login/google', [UserController::class, 'redirectToGoogle']);
+    Route::get('/login/google/callback', [UserController::class, 'handleGoogleCallback']);
+    Route::get('/login/facebook', [UserController::class, 'redirectToFacebook']);
+    Route::get('/login/facebook/callback', [UserController::class, 'handleFacebookCallback']);
+});
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/user"], function(){

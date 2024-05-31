@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('gambar');
             $table->foreignId('pengguna_id');
-            $table->double('penilaian');
+            $table->integer('penilaian');
             $table->string('komentar');
             $table->timestamps();
         });
