@@ -16,35 +16,35 @@ class TabelReviewSeeder extends Seeder
         UserReview::create([
             'gambar' => 'images/review4.jpg',
             'pengguna_id' => 1,
-            'penilaian' => 4.5,
+            'penilaian' => 4,
             'komentar' => 'Webnya bagus sekali, mempermudah saya dalam menyewa motor!'
         ]);
 
         UserReview::create([
             'gambar' => 'images/review2.jpg',
             'pengguna_id' => 2,
-            'penilaian' => 3.0,
+            'penilaian' => 3,
             'komentar' => 'Cukup mempermudah pengguna yang ingin menyewa motor, tetapi masih ada beberapa fitur yang perlu diperbaiki.'
         ]);
 
         UserReview::create([
             'gambar' => 'images/review1.jpg',
             'pengguna_id' => 3,
-            'penilaian' => 3.5,
+            'penilaian' => 3,
             'komentar' => 'Webnya ada sedikit kendala, seperti terlalu berat untuk di jalankan di smartphone.'
         ]);
 
         UserReview::create([
             'gambar' => 'images/review3.jpg',
             'pengguna_id' => 4,
-            'penilaian' => 4.0,
+            'penilaian' => 4,
             'komentar' => 'Webnya Sangat Bagus dan Motornya Sangat Nyaman.'
         ]);
 
         UserReview::create([
             'gambar' => 'images/review5.jpg',
             'pengguna_id' => 5,
-            'penilaian' => 5.0,
+            'penilaian' => 5,
             'komentar' => 'Motornya sangat bagus dan terawat, pelayanannya sangat ramah dan jelas!'
         ]);
     }

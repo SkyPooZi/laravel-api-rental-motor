@@ -136,11 +136,13 @@ class UserController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if (!$user) {
+                $hashedPassword = Hash::make("google123");
+
                 $user = User::create([
                     'gambar' => $googleUser->getAvatar(),
                     'nama_pengguna' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
-                    'password' => null,
+                    'password' => $hashedPassword,
                     'google_id' => $googleUser->getId(),
                 ]);
 
@@ -148,7 +150,7 @@ class UserController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Register account google successful',
+                    'message' => 'Register account google successfull',
                     'access_token' => $token,
                     'user' => [
                         "id" => $user->id,
@@ -156,7 +158,7 @@ class UserController extends Controller
                         "nama_pengguna" => $user->nama_pengguna,
                         "nama_lengkap" => null,
                         "email" => $user->email,
-                        "password" => null,
+                        "password" => $user->password,
                         "google_id" => $user->google_id,
                         "facebook_id" => null,
                         "nomor_hp" => null,
@@ -174,7 +176,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Login account google successful',
+                'message' => 'Login account google successfull',
                 'access_token' => $token,
                 'user' => $user,
             ], 200);
@@ -196,11 +198,13 @@ class UserController extends Controller
             $user = User::where('email', $facebookUser->getEmail())->first();
 
             if (!$user) {
+                $hashedPassword = Hash::make("facebook123");
+
                 $user = User::create([
                     'gambar' => $facebookUser->getAvatar(),
                     'nama_pengguna' => $facebookUser->getName(),
                     'email' => $facebookUser->getEmail(),
-                    'password' => null,
+                    'password' => $hashedPassword,
                     'facebook_id' => $facebookUser->getId(),
                 ]);
 
@@ -208,7 +212,7 @@ class UserController extends Controller
 
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Register account facebook successful',
+                    'message' => 'Register account facebook successfull',
                     'access_token' => $token,
                     'user' => [
                         "id" => $user->id,
@@ -216,7 +220,7 @@ class UserController extends Controller
                         "nama_pengguna" => $user->nama_pengguna,
                         "nama_lengkap" => null,
                         "email" => $user->email,
-                        "password" => null,
+                        "password" => $user->password,
                         "google_id" => null,
                         "facebook_id" => $user->facebook_id,
                         "nomor_hp" => null,
@@ -234,7 +238,7 @@ class UserController extends Controller
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Login account facebook successful',
+                'message' => 'Login account facebook successfull',
                 'access_token' => $token,
                 'user' => $user,
             ], 200);
