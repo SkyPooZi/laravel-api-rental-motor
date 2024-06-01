@@ -8,7 +8,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\OtpController;
+use App\Http\Controllers\OTPController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -75,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::delete('/delete/{id}', [NotificationController::class, 'destroy']);
     });
     
-    Route::post('/send-otp', [OtpController::class, 'sendOtp'])->name('sendOtp');
+    Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
     Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
     Route::get('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
     Route::get('/invoice', [MidtransController::class, 'index']);
