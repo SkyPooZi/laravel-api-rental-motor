@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Lang;
 
 class HistoryController extends Controller
 {
@@ -128,6 +130,47 @@ class HistoryController extends Controller
                 'message' => 'Data history user tidak ditemukan',
             ], 404);
         }
+    }
+
+    public function getFilteredHistory(Request $request)
+    {
+        $filter = $request->query('filter', '7_hari');
+        $now = Carbon::now();
+
+        switch ($filter) {
+            case '4_minggu':
+                $startDate = $now->copy()->startOfWeek()->subWeeks(4);
+                break;
+            case '6_bulan':
+                $startDate = $now->copy()->startOfMonth()->subMonths(6);
+                break;
+            case '5_tahun':
+                $startDate = $now->copy()->startOfYear()->subYears(5);
+                break;
+            case '7_hari':
+            default:
+                $startDate = $now->copy()->startOfWeek()->subDays(7);
+                break;
+        }
+
+        $histories = History::where('tanggal_mulai', '>=', $startDate)->get();
+
+        $data = $histories->map(function ($history) use ($filter) {
+            $tanggalMulai = Carbon::parse($history->tanggal_mulai);
+            $infoTambahan = [];
+
+            $infoTambahan['hari_dalam_minggu'] = $tanggalMulai->format('l');
+            $infoTambahan['minggu_dalam_bulan'] = $tanggalMulai->weekOfMonth;
+            $infoTambahan['bulan'] = $tanggalMulai->format('F');
+            $infoTambahan['tahun'] = $tanggalMulai->year;
+
+            return array_merge($history->toArray(), $infoTambahan);
+        });
+
+        return response()->json([
+            'status' => 200,
+            'data' => $data
+        ]);
     }
 
     public function update(Request $request, $id)

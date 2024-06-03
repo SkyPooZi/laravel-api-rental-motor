@@ -46,6 +46,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/history"], function(){
         Route::get('/all', [HistoryController::class, 'index']);
         Route::get('/detail/{id}', [HistoryController::class, 'show']);
+        Route::get('/filtered', [HistoryController::class, 'getFilteredHistory']);
         Route::post('/create', [HistoryController::class, 'store']);
         Route::post('/edit/{id}', [HistoryController::class, 'update']);
         Route::delete('/delete/{id}', [HistoryController::class, 'destroy']);
