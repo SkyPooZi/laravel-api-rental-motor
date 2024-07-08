@@ -103,7 +103,11 @@ class MidtransController extends Controller
 
         $snapToken = Snap::getSnapToken($params);
 
-        return view('midtrans_view', compact('snapToken', 'order_id'));
+        return response()->json([
+            'status' => 200,
+            'snapToken' => $snapToken,
+            'order_id' => $order_id,
+        ], 200);
     }
 
     public function updateInvoiceMidtrans(Request $request, int $order_id)
