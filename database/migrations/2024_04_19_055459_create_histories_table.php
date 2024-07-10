@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
             $table->string('nama_lengkap');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->string('no_telp', 20);
             $table->string('akun_sosmed');
             $table->text('alamat');

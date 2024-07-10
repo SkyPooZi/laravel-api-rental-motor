@@ -32,7 +32,7 @@ class HistoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:histories,email|max:255',
+            'email' => 'required|string|email|max:255',
             'no_telp' => 'required|string|max:20',
             'akun_sosmed' => 'required|string|max:255',
             'alamat' => 'required|string',
