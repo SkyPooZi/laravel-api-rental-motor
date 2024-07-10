@@ -78,6 +78,6 @@ Route::middleware('auth:sanctum')->group(function() {
     
     Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
     Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
-    Route::get('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
+    Route::post('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
     Route::get('/invoice', [MidtransController::class, 'index']);
 });
