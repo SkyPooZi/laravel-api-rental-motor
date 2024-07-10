@@ -273,6 +273,7 @@ class UserController extends Controller
             'nomor_hp' => 'string',
             'alamat' => 'string',
             'peran' => 'string',
+            'point' => 'int',
         ]);
 
         if($validator->fails()) {
@@ -297,6 +298,7 @@ class UserController extends Controller
                     'nomor_hp',
                     'alamat',
                     'peran',
+                    'point',
                 ]));
             
                 $user->save();
