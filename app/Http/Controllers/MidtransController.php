@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Midtrans;
 use Illuminate\Http\Request;
 use Midtrans\Notification;
@@ -103,6 +104,8 @@ class MidtransController extends Controller
 
         $snapToken = Snap::getSnapToken($params);
 
+        // return view('midtrans_view', compact('snapToken', 'order_id'));
+
         return response()->json([
             'status' => 200,
             'snapToken' => $snapToken,
@@ -112,9 +115,21 @@ class MidtransController extends Controller
 
     public function updateInvoiceMidtrans(Request $request, int $order_id)
     {
+        $validator = Validator::make($request->all(), [
+            'status_pembayaran' => 'string|required',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        }
+    
         $midtrans = Midtrans::where('no_pemesanan', $order_id)->first();
+    
         if ($midtrans) {
-            $midtrans->status_pembayaran = 'Lunas';
+            $midtrans->status_pembayaran = $request->status_pembayaran;
             $midtrans->save();
     
             return response()->json([
