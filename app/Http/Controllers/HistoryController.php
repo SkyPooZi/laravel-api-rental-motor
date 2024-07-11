@@ -45,7 +45,7 @@ class HistoryController extends Controller
             'nama_kontak_darurat' => 'required|string',
             'nomor_kontak_darurat' => 'required|string',
             'hubungan_dengan_kontak_darurat' => 'required|string',
-            'diskon_id' => 'required',
+            'diskon_id' => 'nullable',
             'metode_pembayaran' => 'required|string',
             'total_pembayaran' => 'required|int',
             'status_history' => 'required|string',
