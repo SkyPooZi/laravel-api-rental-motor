@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('nama_kontak_darurat');
             $table->string('nomor_kontak_darurat', 20);
             $table->string('hubungan_dengan_kontak_darurat');
-            $table->foreignId('diskon_id');
+            $table->foreignId('diskon_id')->nullable();
             $table->string('metode_pembayaran');
             $table->integer('total_pembayaran');
             $table->string('status_history');
