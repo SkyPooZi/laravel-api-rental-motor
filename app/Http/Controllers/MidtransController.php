@@ -30,6 +30,23 @@ class MidtransController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $midtrans = Midtrans::with(['history.listMotor', 'history.diskon'])->find($id);
+
+        if($midtrans) {
+            return response()->json([
+                'status' => 200,
+                'midtrans' => $midtrans,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data midtrans user tidak ditemukan',
+            ], 404);
+        }
+    }
+
     public function showPaymentPage(Request $request)
     {
         $validator = Validator::make($request->all(), [

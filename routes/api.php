@@ -75,9 +75,13 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/edit/{id}', [NotificationController::class, 'update']);
         Route::delete('/delete/{id}', [NotificationController::class, 'destroy']);
     });
+
+    Route::group(["prefix" => "/invoice"], function(){
+        Route::get('/all', [MidtransController::class, 'index']);
+        Route::get('/detail/{id}', [MidtransController::class, 'show']);
+    });
     
     Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
     Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
     Route::post('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
-    Route::get('/invoice', [MidtransController::class, 'index']);
 });
