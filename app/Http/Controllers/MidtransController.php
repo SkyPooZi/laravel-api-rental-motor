@@ -15,7 +15,7 @@ class MidtransController extends Controller
 {
     public function index()
     {
-        $midtrans = Midtrans::with(['history'])->get();;
+        $midtrans = Midtrans::with(['history.listMotor', 'history.diskon'])->get();;
 
         if ($midtrans->count() > 0) {
             return response()->json([

@@ -24,4 +24,12 @@ class Midtrans extends Model
     public function history() {
         return $this->belongsTo(History::class, 'history_id');
     }
+
+    public function listMotor() {
+        return $this->belongsTo(ListMotor::class, 'motor_id');
+    }
+
+    public function diskon() {
+        return $this->belongsTo(Diskon::class, 'diskon_id');
+    }
 }
