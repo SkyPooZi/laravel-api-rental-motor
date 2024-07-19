@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pengguna_id');
             $table->string('nama_lengkap');
             $table->string('email');
             $table->string('no_telp', 20);

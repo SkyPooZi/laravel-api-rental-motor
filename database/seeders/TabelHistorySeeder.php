@@ -14,6 +14,7 @@ class TabelHistorySeeder extends Seeder
     public function run(): void
     {
         History::create([
+            'pengguna_id' => 1,
             'nama_lengkap' => 'A',
             'email' => 'a@gmail.com',
             'no_telp' => '+62',
@@ -35,6 +36,7 @@ class TabelHistorySeeder extends Seeder
         ]);
 
         History::create([
+            'pengguna_id' => 2,
             'nama_lengkap' => 'B',
             'email' => 'b@gmail.com',
             'no_telp' => '+62',
@@ -56,6 +58,7 @@ class TabelHistorySeeder extends Seeder
         ]);
 
         History::create([
+            'pengguna_id' => 3,
             'nama_lengkap' => 'C',
             'email' => 'c@gmail.com',
             'no_telp' => '+62',
