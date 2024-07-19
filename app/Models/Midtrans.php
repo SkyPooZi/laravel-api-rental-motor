@@ -21,6 +21,10 @@ class Midtrans extends Model
         'total_pemesanan',
     ];
 
+    public function user() {
+        return $this->belongsTo(User::class, 'pengguna_id');
+    }
+
     public function history() {
         return $this->belongsTo(History::class, 'history_id');
     }
