@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string('metode_pembayaran');
             $table->integer('total_pembayaran');
             $table->string('status_history');
+            $table->foreignId('ulasan_id')->nullable();
+            $table->date('tanggal_pembatalan')->nullable();
+            $table->string('alasan_pembatalan')->nullable();
             $table->timestamps();
         });
     }

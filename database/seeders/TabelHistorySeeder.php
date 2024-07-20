@@ -33,6 +33,9 @@ class TabelHistorySeeder extends Seeder
             'metode_pembayaran' => 'Cashless',
             'total_pembayaran' => '700000',
             'status_history' => 'Menunggu Pembayaran',
+            'ulasan_id' => null,
+            'tanggal_pembatalan' => null,
+            'alasan_pembatalan' => null,
         ]);
 
         History::create([
@@ -55,6 +58,9 @@ class TabelHistorySeeder extends Seeder
             'metode_pembayaran' => 'Cashless',
             'total_pembayaran' => '840000',
             'status_history' => 'Menunggu Pembayaran',
+            'ulasan_id' => 1,
+            'tanggal_pembatalan' => null,
+            'alasan_pembatalan' => null,
         ]);
 
         History::create([
@@ -77,6 +83,9 @@ class TabelHistorySeeder extends Seeder
             'metode_pembayaran' => 'Tunai',
             'total_pembayaran' => '1200000',
             'status_history' => 'Menunggu Pembayaran',
+            'ulasan_id' => null,
+            'tanggal_pembatalan' => '2024-06-20',
+            'alasan_pembatalan' => 'Ada Kendala Darurat',
         ]);
     }
 }

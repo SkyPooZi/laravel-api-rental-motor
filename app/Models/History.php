@@ -31,6 +31,9 @@ class History extends Model
         'metode_pembayaran',
         'total_pembayaran',
         'status_history',
+        'ulasan_id',
+        'tanggal_pembatalan',
+        'alasan_pembatalan',
     ];
 
     public function user() {
@@ -43,5 +46,9 @@ class History extends Model
 
     public function diskon() {
         return $this->belongsTo(Diskon::class, 'diskon_id');
+    }
+
+    public function ulasan() {
+        return $this->belongsTo(UserReview::class, 'ulasan_id');
     }
 }

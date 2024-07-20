@@ -13,7 +13,7 @@ class HistoryController extends Controller
 {
     public function index()
     {
-        $history = History::with(['user', 'listMotor', 'diskon'])->get();
+        $history = History::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
 
         if($history->count() > 0) {
             return response()->json([
@@ -105,6 +105,9 @@ class HistoryController extends Controller
                         "metode_pembayaran" => $history->metode_pembayaran,
                         "total_pembayaran" => $history->total_pembayaran,
                         "status_history" => $history->status_history,
+                        "ulasan_id" => $history->ulasan_id,
+                        "tanggal_pembatalan" => $history->tanggal_pembatalan,
+                        "alasan_pembatalan" => $history->alasan_pembatalan,
                         "updated_at" => $history->updated_at,
                         "created_at" => $history->created_at,
                     ],
@@ -120,7 +123,7 @@ class HistoryController extends Controller
 
     public function show($id)
     {
-        $history = History::with(['user', 'listMotor', 'diskon'])->find($id);
+        $history = History::with(['user', 'listMotor', 'diskon', 'ulasan'])->find($id);
 
         if($history) {
             return response()->json([
@@ -197,6 +200,9 @@ class HistoryController extends Controller
             'metode_pembayaran' => 'string',
             'total_pembayaran' => 'int',
             'status_history' => 'string',
+            'ulasan_id' => 'unique:histories',
+            'tanggal_pembatalan' => 'date',
+            'alasan_pembatalan' => 'string|max:255',
         ]);
 
         if($validator->fails()) {
@@ -227,6 +233,9 @@ class HistoryController extends Controller
                     'metode_pembayaran',
                     'total_pembayaran',
                     'status_history',
+                    'ulasan_id',
+                    'tanggal_pembatalan',
+                    'alasan_pembatalan',
                 ]));
             
                 $history->save();

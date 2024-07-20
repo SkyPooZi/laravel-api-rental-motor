@@ -36,4 +36,8 @@ class Midtrans extends Model
     public function diskon() {
         return $this->belongsTo(Diskon::class, 'diskon_id');
     }
+
+    public function ulasan() {
+        return $this->belongsTo(UserReview::class, 'ulasan_id');
+    }
 }
