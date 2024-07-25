@@ -16,7 +16,7 @@ class TabelListMotorSeeder extends Seeder
         // Sport
 
         ListMotor::create([
-            'gambar_motor' => 'images/crf.jpg',
+            'gambar_motor' => 'images/crf.png',
             'nama_motor' => 'CRF',
             'tipe_motor' => 'Sport',
             'merk_motor' => 'Honda',
@@ -28,7 +28,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/xsr.jpg',
+            'gambar_motor' => 'images/xsr.png',
             'nama_motor' => 'XSR',
             'tipe_motor' => 'Sport',
             'merk_motor' => 'Yamaha',
@@ -42,7 +42,7 @@ class TabelListMotorSeeder extends Seeder
         //Premium Matic
 
         ListMotor::create([
-            'gambar_motor' => 'images/vespa_sprint.jpg',
+            'gambar_motor' => 'images/vespa_sprint.png',
             'nama_motor' => 'Vespa Sprint',
             'tipe_motor' => 'Premium Matic',
             'merk_motor' => 'Vespa',
@@ -54,7 +54,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/xmax.jpg',
+            'gambar_motor' => 'images/xmax.png',
             'nama_motor' => 'XMAX',
             'tipe_motor' => 'Premium Matic',
             'merk_motor' => 'Yamaha',
@@ -66,7 +66,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/pcx.jpg',
+            'gambar_motor' => 'images/pcx.png',
             'nama_motor' => 'PCX',
             'tipe_motor' => 'Premium Matic',
             'merk_motor' => 'Honda',
@@ -78,7 +78,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/nmax.jpg',
+            'gambar_motor' => 'images/nmax.png',
             'nama_motor' => 'NMAX',
             'tipe_motor' => 'Premium Matic',
             'merk_motor' => 'Yamaha',
@@ -92,7 +92,7 @@ class TabelListMotorSeeder extends Seeder
         //Matic
 
         ListMotor::create([
-            'gambar_motor' => 'images/vario_160.jpg',
+            'gambar_motor' => 'images/vario_160.png',
             'nama_motor' => 'Vario 160',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Honda',
@@ -104,7 +104,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/vario_150.jpg',
+            'gambar_motor' => 'images/vario_150.png',
             'nama_motor' => 'Vario 125/150',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Honda',
@@ -116,7 +116,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/scoopy_new.jpg',
+            'gambar_motor' => 'images/scoopy_new.png',
             'nama_motor' => 'Scoopy New',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Honda',
@@ -128,7 +128,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/scoopy_fi.jpg',
+            'gambar_motor' => 'images/scoopy_fi.png',
             'nama_motor' => 'Scoopy Fi',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Honda',
@@ -140,7 +140,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/beat.jpg',
+            'gambar_motor' => 'images/beat.png',
             'nama_motor' => 'Beat',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Honda',
@@ -152,7 +152,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/xeon.jpg',
+            'gambar_motor' => 'images/xeon.png',
             'nama_motor' => 'Xeon',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Yamaha',
@@ -164,7 +164,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/soul_gt.jpg',
+            'gambar_motor' => 'images/soul_gt.png',
             'nama_motor' => 'Soul GT',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Yamaha',
@@ -176,7 +176,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/mio_j.jpg',
+            'gambar_motor' => 'images/mio_j.png',
             'nama_motor' => 'Mio J',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Yamaha',
@@ -188,7 +188,7 @@ class TabelListMotorSeeder extends Seeder
         ]);
 
         ListMotor::create([
-            'gambar_motor' => 'images/mio_sporty.jpg',
+            'gambar_motor' => 'images/mio_sporty.png',
             'nama_motor' => 'Mio Sporty',
             'tipe_motor' => 'Matic',
             'merk_motor' => 'Yamaha',

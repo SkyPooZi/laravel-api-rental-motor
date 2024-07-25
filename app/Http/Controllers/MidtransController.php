@@ -49,16 +49,6 @@ class MidtransController extends Controller
 
     public function showPaymentPage(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'history_id' => 'required',
-            'no_pemesanan' => 'integer',
-            'tanggal_pemesanan' => 'date',
-            'tanggal_pembayaran' => 'date',
-            'metode_pembayaran' => 'string',
-            'status_pembayaran' => 'string',
-            'total_pemesanan' => 'integer',
-        ]);
-
         $history = History::find($request->id);
         if (!$history) {
             return response()->json([
@@ -128,6 +118,82 @@ class MidtransController extends Controller
             'snapToken' => $snapToken,
             'order_id' => $order_id,
         ], 200);
+    }
+
+    public function showPaymentReschedulePage(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'total_pembayaran' => 'required|int',
+            'durasi' => 'required|int',
+        ]);
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        }else{
+            $history = History::find($request->id);
+            if (!$history) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Data history tidak ditemukan',
+                ], 404);
+            }
+
+            $listMotor = $history->listMotor;
+            if (!$listMotor) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Data motor tidak ditemukan',
+                ], 404);
+            }
+
+            Config::$serverKey = config('midtrans.server_key');
+            Config::$isProduction = false;
+            Config::$isSanitized = true;
+            Config::$is3ds = true;
+
+            $order_id = rand();
+            $subtotal = $listMotor->harga_motor_per_1_hari * 1;
+
+            $params = [
+                'transaction_details' => [
+                    'order_id' => $order_id,
+                    'gross_amount' => $request->total_pembayaran,
+                    'reschedule' => $request->durasi + 'hari',
+                ],
+                'customer_details' => [
+                    'name' => $history->nama_pengguna,
+                    'phone' => $history->nomor_hp,
+                    'email' => $history->email,
+                    'address' => $history->alamat,
+                ],
+                'shipping_details' => [
+                    'name' => $history->nama_pengguna,
+                    'phone' => $history->nomor_hp,
+                    'email' => $history->email,
+                    'address' => $history->alamat,
+                ],
+                'product_details' => [
+                    'product_id' => $history->motor_id,
+                    'product_name' => $listMotor->nama_motor,
+                    'quantity' => 1,
+                    'price' => $listMotor->harga_motor_per_1_hari,
+                    'subtotal' => $subtotal,
+                ],
+            ];
+
+            $snapToken = Snap::getSnapToken($params);
+
+            // return view('midtrans_view', compact('snapToken', 'order_id'));
+
+            return response()->json([
+                'status' => 200,
+                'snapToken' => $snapToken,
+                'order_id' => $order_id,
+            ], 200);
+        }
     }
 
     public function updateInvoiceMidtrans(Request $request, int $order_id)
