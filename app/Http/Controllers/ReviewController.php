@@ -30,7 +30,7 @@ class ReviewController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'gambar' => 'required|file|image|max:2048',
+            'gambar' => 'file|image|max:2048',
             'pengguna_id' => 'required',
             'penilaian' => 'required|int|max:5',
             'komentar' => 'required|string|max:191',
