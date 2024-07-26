@@ -124,7 +124,7 @@ class MidtransController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'total_pembayaran' => 'required|int',
-            'durasi' => 'required|int',
+            'reschedule' => 'required|string',
         ]);
 
         if($validator->fails()){
@@ -161,7 +161,7 @@ class MidtransController extends Controller
                 'transaction_details' => [
                     'order_id' => $order_id,
                     'gross_amount' => $request->total_pembayaran,
-                    'reschedule' => $request->durasi + 'hari',
+                    'reschedule' => $request->reschedule,
                 ],
                 'customer_details' => [
                     'name' => $history->nama_pengguna,
