@@ -21,6 +21,7 @@ class History extends Model
         'penyewa',
         'motor_id',
         'tanggal_mulai',
+        'durasi',
         'tanggal_selesai',
         'keperluan_menyewa',
         'penerimaan_motor',

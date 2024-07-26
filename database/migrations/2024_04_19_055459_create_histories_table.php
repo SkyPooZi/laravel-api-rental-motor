@@ -21,8 +21,9 @@ return new class extends Migration
             $table->text('alamat');
             $table->string('penyewa');
             $table->foreignId('motor_id');
-            $table->date('tanggal_mulai');
-            $table->date('tanggal_selesai');
+            $table->datetime('tanggal_mulai');
+            $table->integer('durasi');
+            $table->datetime('tanggal_selesai');
             $table->string('keperluan_menyewa');
             $table->string('penerimaan_motor');
             $table->string('nama_kontak_darurat');
