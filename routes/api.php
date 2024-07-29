@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/user/create', [UserController::class, 'store']);
+Route::get('/list-motor/all', [ListMotorController::class, 'index']);
+Route::get('/diskon/all', [DiskonController::class, 'index']);
+Route::get('/review/all', [ReviewController::class, 'index']);
 
 Route::middleware(['web'])->group(function () {
     Route::get('/login/google', [UserController::class, 'redirectToGoogle']);
@@ -36,7 +39,6 @@ Route::middleware('auth:sanctum')->group(function() {
     });
     
     Route::group(["prefix" => "/list-motor"], function(){
-        Route::get('/all', [ListMotorController::class, 'index']);
         Route::get('/detail/{id}', [ListMotorController::class, 'show']);
         Route::post('/create', [ListMotorController::class, 'store']);
         Route::post('/edit/{id}', [ListMotorController::class, 'update']);
@@ -53,7 +55,6 @@ Route::middleware('auth:sanctum')->group(function() {
     });
     
     Route::group(["prefix" => "/diskon"], function(){
-        Route::get('/all', [DiskonController::class, 'index']);
         Route::get('/detail/{id}', [DiskonController::class, 'show']);
         Route::post('/create', [DiskonController::class, 'store']);
         Route::post('/edit/{id}', [DiskonController::class, 'update']);
@@ -61,7 +62,6 @@ Route::middleware('auth:sanctum')->group(function() {
     });
     
     Route::group(["prefix" => "/review"], function(){
-        Route::get('/all', [ReviewController::class, 'index']);
         Route::get('/detail/{id}', [ReviewController::class, 'show']);
         Route::post('/create', [ReviewController::class, 'store']);
         Route::post('/edit/{id}', [ReviewController::class, 'update']);
