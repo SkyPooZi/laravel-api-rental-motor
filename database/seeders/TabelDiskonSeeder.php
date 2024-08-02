@@ -14,7 +14,7 @@ class TabelDiskonSeeder extends Seeder
     public function run(): void
     {
         Diskon::create([
-            'gambar' => null,
+            'gambar' => '',
             'nama_diskon' => 'Tidak Ada',
             'potongan_harga' => 0,
             'tanggal_mulai' => '2024-01-01',

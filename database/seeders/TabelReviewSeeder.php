@@ -49,14 +49,14 @@ class TabelReviewSeeder extends Seeder
         ]);
         
         UserReview::create([
-            'gambar' => 'images/review5.jpg',
+            'gambar' => 'images/review6.png',
             'pengguna_id' => 6,
             'penilaian' => 5,
             'komentar' => 'Fitur yang sangat lengkap membuat saya ingin menyewa kembali!'
         ]);
 
         UserReview::create([
-            'gambar' => 'images/review5.jpg',
+            'gambar' => 'images/review7.jpg',
             'pengguna_id' => 7,
             'penilaian' => 5,
             'komentar' => 'Pembayaran bisa menggunakan QRIS mempermudah saya dalam pemesanan.'
