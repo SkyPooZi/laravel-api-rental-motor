@@ -18,7 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/user/create', [UserController::class, 'store']);
+Route::get('/user/all', [UserController::class, 'index']);
 Route::get('/list-motor/all', [ListMotorController::class, 'index']);
+Route::get('/list-motor/detail/{id}', [ListMotorController::class, 'show']);
 Route::get('/diskon/all', [DiskonController::class, 'index']);
 Route::get('/review/all', [ReviewController::class, 'index']);
 
@@ -31,7 +33,6 @@ Route::middleware(['web'])->group(function () {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/user"], function(){
-        Route::get('/all', [UserController::class, 'index']);
         Route::get('/detail/{id}', [UserController::class, 'show']);
         Route::post('/edit/{id}', [UserController::class, 'update']);
         Route::post('/edit/account/{id}', [UserController::class, 'updateAccount']);
@@ -39,7 +40,6 @@ Route::middleware('auth:sanctum')->group(function() {
     });
     
     Route::group(["prefix" => "/list-motor"], function(){
-        Route::get('/detail/{id}', [ListMotorController::class, 'show']);
         Route::post('/create', [ListMotorController::class, 'store']);
         Route::post('/edit/{id}', [ListMotorController::class, 'update']);
         Route::delete('/delete/{id}', [ListMotorController::class, 'destroy']);
