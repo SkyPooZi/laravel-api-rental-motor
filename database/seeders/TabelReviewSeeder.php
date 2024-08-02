@@ -16,7 +16,7 @@ class TabelReviewSeeder extends Seeder
         UserReview::create([
             'gambar' => 'images/review4.jpg',
             'pengguna_id' => 1,
-            'penilaian' => 4,
+            'penilaian' => 5,
             'komentar' => 'Webnya bagus sekali, mempermudah saya dalam menyewa motor!'
         ]);
 
@@ -30,14 +30,14 @@ class TabelReviewSeeder extends Seeder
         UserReview::create([
             'gambar' => 'images/review1.jpg',
             'pengguna_id' => 3,
-            'penilaian' => 3,
+            'penilaian' => 4,
             'komentar' => 'Webnya ada sedikit kendala, seperti terlalu berat untuk di jalankan di smartphone.'
         ]);
 
         UserReview::create([
             'gambar' => 'images/review3.jpg',
             'pengguna_id' => 4,
-            'penilaian' => 4,
+            'penilaian' => 5,
             'komentar' => 'Webnya Sangat Bagus dan Motornya Sangat Nyaman.'
         ]);
 
@@ -46,6 +46,20 @@ class TabelReviewSeeder extends Seeder
             'pengguna_id' => 5,
             'penilaian' => 5,
             'komentar' => 'Motornya sangat bagus dan terawat, pelayanannya sangat ramah dan jelas!'
+        ]);
+        
+        UserReview::create([
+            'gambar' => 'images/review5.jpg',
+            'pengguna_id' => 6,
+            'penilaian' => 5,
+            'komentar' => 'Fitur yang sangat lengkap membuat saya ingin menyewa kembali!'
+        ]);
+
+        UserReview::create([
+            'gambar' => 'images/review5.jpg',
+            'pengguna_id' => 7,
+            'penilaian' => 5,
+            'komentar' => 'Pembayaran bisa menggunakan QRIS mempermudah saya dalam pemesanan.'
         ]);
     }
 }

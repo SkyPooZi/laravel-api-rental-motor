@@ -13,6 +13,14 @@ class TabelDiskonSeeder extends Seeder
      */
     public function run(): void
     {
+        Diskon::create([
+            'gambar' => null,
+            'nama_diskon' => 'Tidak Ada',
+            'potongan_harga' => 0,
+            'tanggal_mulai' => '2024-01-01',
+            'tanggal_selesai' => '2029-01-01',
+        ]);
+
        Diskon::create([
             'gambar' => 'images/diskon_awal_tahun.jpg',
             'nama_diskon' => 'Diskon Awal Tahun',
