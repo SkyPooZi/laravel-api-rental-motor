@@ -141,6 +141,51 @@ class HistoryController extends Controller
         }
     }
 
+    public function updateStatuses()
+    {
+        $this->updatePendingPaymentStatus();
+
+        $this->updateOrderedStatus();
+
+        $this->updateInUseStatus();
+    }
+
+    private function updatePendingPaymentStatus()
+    {
+        $pendingHistories = History::where('status_history', 'Menunggu Pembayaran')
+            ->where('created_at', '<', Carbon::now()->subDay())
+            ->get();
+
+        foreach ($pendingHistories as $history) {
+            $history->status_history = 'Dibatalkan';
+            $history->save();
+        }
+    }
+
+    private function updateOrderedStatus()
+    {
+        $orderedHistories = History::where('status_history', 'Dipesan')
+            ->where('tanggal_mulai', '<=', Carbon::now())
+            ->get();
+
+        foreach ($orderedHistories as $history) {
+            $history->status_history = 'Sedang Digunakan';
+            $history->save();
+        }
+    }
+
+    private function updateInUseStatus()
+    {
+        $inUseHistories = History::where('status_history', 'Sedang Digunakan')
+            ->where('tanggal_selesai', '<=', Carbon::now())
+            ->get();
+
+        foreach ($inUseHistories as $history) {
+            $history->status_history = 'Selesai';
+            $history->save();
+        }
+    }
+
     public function getFilteredHistory(Request $request)
     {
         $filter = $request->query('filter', '7_hari');
