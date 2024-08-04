@@ -58,6 +58,9 @@ class UserController extends Controller
                 if ($referencedUser) {
                     $referencedUser->point += 1000;
                     $referencedUser->save();
+
+                    $user->point += 2000;
+                    $user->save();
                 } else {
                     return response()->json([
                         'status' => 422,
@@ -65,9 +68,6 @@ class UserController extends Controller
                     ], 422);
                 }
             }
-
-            $user->point += 2000;
-            $user->save();
 
             $token = $user->createToken('auth_token')->plainTextToken;
     
