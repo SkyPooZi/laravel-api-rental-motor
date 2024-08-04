@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::post('/login', [UserController::class, 'login']);
-Route::post('/user/create', [UserController::class, 'store']);
+Route::post('/register', [UserController::class, 'register']);
 Route::get('/user/all', [UserController::class, 'index']);
 Route::get('/list-motor/all', [ListMotorController::class, 'index']);
 Route::get('/list-motor/detail/{id}', [ListMotorController::class, 'show']);
@@ -33,6 +33,7 @@ Route::middleware(['web'])->group(function () {
 
 Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/user"], function(){
+        Route::post('/create', [UserController::class, 'store']);
         Route::get('/detail/{id}', [UserController::class, 'show']);
         Route::post('/edit/{id}', [UserController::class, 'update']);
         Route::post('/edit/account/{id}', [UserController::class, 'updateAccount']);

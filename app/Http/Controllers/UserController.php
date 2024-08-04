@@ -30,12 +30,13 @@ class UserController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nama_pengguna' => 'required|string',
             'email' => 'required|string|email|unique:users,email',
             'password' => 'required|string',
+            'kode_referensi' => 'nullable|string|exists:users,kode',
         ]);
 
         if($validator->fails()) {
@@ -51,11 +52,30 @@ class UserController extends Controller
                 'email' => $request->email,
                 'password' => $hashedPassword,
             ]);
+
+            if ($request->filled('kode_referensi')) {
+                $referencedUser = User::where('kode', $request->kode_referensi)->first();
+                if ($referencedUser) {
+                    $referencedUser->point += 1000;
+                    $referencedUser->save();
+                } else {
+                    return response()->json([
+                        'status' => 422,
+                        'errors' => ['kode_referensi' => ['Kode referensi tidak valid.']],
+                    ], 422);
+                }
+            }
+
+            $user->point += 2000;
+            $user->save();
+
+            $token = $user->createToken('auth_token')->plainTextToken;
     
             if($user) {
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Data user berhasil ditambahkan',
+                    'message' => 'Register successful',
+                    'access_token' => $token,
                     'user' => [
                         "id" => $user->id,
                         "gambar" => null,
@@ -244,6 +264,59 @@ class UserController extends Controller
             ], 200);
         } catch (Exception $e) {
             return response()->json(['error' => 'Unable to login, try again later.'], 500);
+        }
+    }
+
+    public function store(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'nama_pengguna' => 'required|string',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string',
+        ]);
+
+        if($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'errors' => $validator->messages(),
+            ], 422);
+        } else {
+            $hashedPassword = Hash::make($request->password);
+
+            $user = User::create([
+                'nama_pengguna' => $request->nama_pengguna,
+                'email' => $request->email,
+                'password' => $hashedPassword,
+            ]);
+    
+            if($user) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Data user berhasil ditambahkan',
+                    'user' => [
+                        "id" => $user->id,
+                        "gambar" => null,
+                        "nama_pengguna" => $user->nama_pengguna,
+                        "nama_lengkap" => null,
+                        "email" => $user->email,
+                        "password" => $hashedPassword,
+                        "google_id" => null,
+                        "facebook_id" => null,
+                        "nomor_hp" => null,
+                        "alamat" => null,
+                        "peran" => "user",
+                        "kode" => $user->kode,
+                        "point" => $user->point,
+                        "created_at" => $user->created_at,
+                        "updated_at" => $user->updated_at
+                    ],
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => 'Data user gagal ditambahkan',
+                ], 500);
+            }
         }
     }
 
