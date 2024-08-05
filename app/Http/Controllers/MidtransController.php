@@ -47,6 +47,44 @@ class MidtransController extends Controller
         }
     }
 
+    public function store(Request $request)
+    {
+        $history = History::find($request->id);
+        if (!$history) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data history tidak ditemukan',
+            ], 404);
+        }
+
+        $listMotor = $history->listMotor;
+        if (!$listMotor) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data motor tidak ditemukan',
+            ], 404);
+        }
+
+        $order_id = rand();
+        $subtotal = $listMotor->harga_motor_per_1_hari * 1;
+
+        $midtrans = Midtrans::create([
+            'history_id' => $request->id,
+            'no_pemesanan' => $order_id,
+            'tanggal_pemesanan' => $history->created_at,
+            'tanggal_pembayaran' => now(),
+            'metode_pembayaran' => $history->metode_pembayaran,
+            'status_pembayaran' => 'Belum Lunas',
+            'total_pemesanan' => $subtotal,
+        ]);
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data invoice user berhasil ditambahkan',
+            'order_id' => $order_id,
+        ], 200);
+    }
+
     public function showPaymentPage(Request $request)
     {
         $history = History::find($request->id);

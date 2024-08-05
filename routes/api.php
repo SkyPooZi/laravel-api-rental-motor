@@ -80,6 +80,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/invoice"], function(){
         Route::get('/all', [MidtransController::class, 'index']);
         Route::get('/detail/{id}', [MidtransController::class, 'show']);
+        Route::post('/create/{id}', [MidtransController::class, 'store']);
     });
     
     Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
