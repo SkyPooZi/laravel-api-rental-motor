@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::post('/register', [UserController::class, 'register']);
+Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
+Route::post('user/edit/account/{id}', [UserController::class, 'updateAccount']);
 Route::get('/user/all', [UserController::class, 'index']);
 Route::get('/list-motor/all', [ListMotorController::class, 'index']);
 Route::get('/list-motor/detail/{id}', [ListMotorController::class, 'show']);
@@ -36,7 +38,6 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create', [UserController::class, 'store']);
         Route::get('/detail/{id}', [UserController::class, 'show']);
         Route::post('/edit/{id}', [UserController::class, 'update']);
-        Route::post('/edit/account/{id}', [UserController::class, 'updateAccount']);
         Route::delete('/delete/{id}', [UserController::class, 'destroy']);
     });
     
@@ -83,7 +84,6 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create/{id}', [MidtransController::class, 'store']);
     });
     
-    Route::post('/send-otp', [OTPController::class, 'sendOtp'])->name('sendOtp');
     Route::get('/payment/{id}', [MidtransController::class, 'showPaymentPage']);
     Route::post('/payment-reschedule/{id}', [MidtransController::class, 'showPaymentReschedulePage']);
     Route::post('/update-invoice/{order_id}', [MidtransController::class, 'updateInvoiceMidtrans']);
