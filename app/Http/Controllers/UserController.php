@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Google;
+use App\Models\Facebook;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -143,6 +145,16 @@ class UserController extends Controller
         ], 200);
     }
 
+    private function generateRandomPassword($length = 15)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=';
+        $password = '';
+        for ($i = 0; $i < $length; $i++) {
+            $password .= $characters[random_int(0, strlen($characters) - 1)];
+        }
+        return $password;
+    }
+
     public function redirectToGoogle()
     {
         return Socialite::driver('google')->redirect();
@@ -156,7 +168,8 @@ class UserController extends Controller
             $user = User::where('email', $googleUser->getEmail())->first();
 
             if (!$user) {
-                $hashedPassword = Hash::make("google123");
+                $randomPassword = $this->generateRandomPassword(15);
+                $hashedPassword = Hash::make($randomPassword);
 
                 $user = User::create([
                     'gambar' => $googleUser->getAvatar(),
@@ -168,9 +181,15 @@ class UserController extends Controller
 
                 $token = $user->createToken('auth_token')->plainTextToken;
 
-                return response()->json([
+                $google = Google::create([
+                    'access_token' => $token,
+                    'pengguna_id' => $user->id,
+                    'tanggal_masuk' => now(),
+                ]);
+
+                return redirect('http://localhost:3000/login/google')->with([
                     'status' => 200,
-                    'message' => 'Register account google successfull',
+                    'message' => 'Register account google successful',
                     'access_token' => $token,
                     'user' => [
                         "id" => $user->id,
@@ -178,7 +197,7 @@ class UserController extends Controller
                         "nama_pengguna" => $user->nama_pengguna,
                         "nama_lengkap" => null,
                         "email" => $user->email,
-                        "password" => $user->password,
+                        "password" => $hashedPassword,
                         "google_id" => $user->google_id,
                         "facebook_id" => null,
                         "nomor_hp" => null,
@@ -194,9 +213,17 @@ class UserController extends Controller
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json([
+            $google = Google::where('pengguna_id', $user->id)->first();
+
+            if ($google) {
+                $google->access_token = $token;
+                $google->tanggal_masuk = now();
+                $google->save();
+            }
+
+            return redirect('http://localhost:3000/login/google')->with([
                 'status' => 200,
-                'message' => 'Login account google successfull',
+                'message' => 'Login account google successful',
                 'access_token' => $token,
                 'user' => $user,
             ], 200);
@@ -204,6 +231,7 @@ class UserController extends Controller
             return response()->json(['error' => 'Unable to login, try again later.'], 500);
         }
     }
+
 
     public function redirectToFacebook()
     {
@@ -218,7 +246,8 @@ class UserController extends Controller
             $user = User::where('email', $facebookUser->getEmail())->first();
 
             if (!$user) {
-                $hashedPassword = Hash::make("facebook123");
+                $randomPassword = $this->generateRandomPassword(15);
+                $hashedPassword = Hash::make($randomPassword);
 
                 $user = User::create([
                     'gambar' => $facebookUser->getAvatar(),
@@ -230,9 +259,15 @@ class UserController extends Controller
 
                 $token = $user->createToken('auth_token')->plainTextToken;
 
-                return response()->json([
+                $facebook = Facebook::create([
+                    'access_token' => $token,
+                    'pengguna_id' => $user->id,
+                    'tanggal_masuk' => now(),
+                ]);
+
+                return redirect('http://localhost:3000/login/facebook')->with([
                     'status' => 200,
-                    'message' => 'Register account facebook successfull',
+                    'message' => 'Register account facebook successful',
                     'access_token' => $token,
                     'user' => [
                         "id" => $user->id,
@@ -240,7 +275,7 @@ class UserController extends Controller
                         "nama_pengguna" => $user->nama_pengguna,
                         "nama_lengkap" => null,
                         "email" => $user->email,
-                        "password" => $user->password,
+                        "password" => $hashedPassword,
                         "google_id" => null,
                         "facebook_id" => $user->facebook_id,
                         "nomor_hp" => null,
@@ -256,9 +291,17 @@ class UserController extends Controller
 
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return response()->json([
+            $facebook = Facebook::where('pengguna_id', $user->id)->first();
+
+            if ($facebook) {
+                $facebook->access_token = $token;
+                $facebook->tanggal_masuk = now();
+                $facebook->save();
+            }
+
+            return redirect('http://localhost:3000/login/facebook')->with([
                 'status' => 200,
-                'message' => 'Login account facebook successfull',
+                'message' => 'Login account facebook successful',
                 'access_token' => $token,
                 'user' => $user,
             ], 200);
