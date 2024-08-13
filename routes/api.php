@@ -9,6 +9,8 @@ use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OTPController;
+use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\FacebookController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -25,6 +27,14 @@ Route::get('/list-motor/all', [ListMotorController::class, 'index']);
 Route::get('/list-motor/detail/{id}', [ListMotorController::class, 'show']);
 Route::get('/diskon/all', [DiskonController::class, 'index']);
 Route::get('/review/all', [ReviewController::class, 'index']);
+Route::group(["prefix" => "/google"], function(){
+    Route::get('/all', [GoogleController::class, 'index']);
+    Route::get('/detail', [GoogleController::class, 'show']);
+});
+Route::group(["prefix" => "/facebook"], function(){
+    Route::get('/all', [FacebookController::class, 'index']);
+    Route::get('/detail', [FacebookController::class, 'show']);
+});
 
 Route::middleware(['web'])->group(function () {
     Route::get('/login/google', [UserController::class, 'redirectToGoogle']);
