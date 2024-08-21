@@ -14,28 +14,28 @@ class TabelNotificationSeeder extends Seeder
     public function run(): void
     {
         Notification::create([
-            'pengguna_id' => 2,
-            'pesan' => 'A ingin menyewa motor NMAX, apakah anda menyetujui pemintaan ini? '
+            'history_id' => 2,
+            'pesan' => 'Halo A, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.'
         ]);
 
         Notification::create([
-            'pengguna_id' => 3,
-            'pesan' => 'B ingin menyewa motor PCX, apakah anda menyetujui pemintaan ini? '
+            'history_id' => 3,
+            'pesan' => 'Halo B, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.'
         ]);
 
         Notification::create([
-            'pengguna_id' => 4,
-            'pesan' => 'C ingin menyewa motor Vario 160, apakah anda menyetujui pemintaan ini? '
+            'history_id' => 4,
+            'pesan' => 'Halo C, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.'
         ]);
 
         Notification::create([
-            'pengguna_id' => 5,
-            'pesan' => 'D ingin menyewa motor Vario 150, apakah anda menyetujui pemintaan ini? '
+            'history_id' => 5,
+            'pesan' => 'Halo D, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.'
         ]);
 
         Notification::create([
-            'pengguna_id' => 6,
-            'pesan' => 'E ingin menyewa motor XSR, apakah anda menyetujui pemintaan ini? '
+            'history_id' => 6,
+            'pesan' => 'Halo E, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.'
         ]);
     }
 }
