@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengguna_id');
+            $table->foreignId('history_id');
             $table->string('pesan');
             $table->timestamps();
         });

@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\History;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Mail\NotificationMail;
+use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Lang;
+use Twilio\Rest\Client;
 
 class HistoryController extends Controller
 {
@@ -143,11 +146,110 @@ class HistoryController extends Controller
 
     public function updateStatuses()
     {
+        $this->notifyPendingPaymentStatus();
+        $this->notifyOrderedStatus();
+        $this->notifyInUseStatus();
+
         $this->updatePendingPaymentStatus();
-
         $this->updateOrderedStatus();
-
         $this->updateInUseStatus();
+    }
+
+    private function notifyPendingPaymentStatus()
+    {
+        $histories = History::where('status_history', 'Menunggu Pembayaran')
+            ->where('created_at', '<', Carbon::now()->subHours(22))
+            ->get();
+
+        foreach ($histories as $history) {
+            $pesan = "Halo {$history->user->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
+            $this->sendNotification($history, $pesan);
+        }
+    }
+
+    private function notifyOrderedStatus()
+    {
+        $histories = History::where('status_history', 'Dipesan')
+            ->where('tanggal_mulai', '<=', Carbon::now()->addHours(2))
+            ->get();
+
+        foreach ($histories as $history) {
+            $pesan = "Halo {$history->user->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
+            $this->sendNotification($history, $pesan);
+        }
+    }
+
+    private function notifyInUseStatus()
+    {
+        $histories = History::where('status_history', 'Sedang Digunakan')
+            ->where('tanggal_selesai', '<=', Carbon::now()->addHours(2))
+            ->get();
+
+        foreach ($histories as $history) {
+            $pesan = "Halo {$history->user->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
+            $this->sendNotification($history, $pesan);
+        }
+    }
+
+    private function sendNotification($history, $pesan)
+    {
+        $no_telp = $history->no_telp;
+
+        $formattedMessage = "
+*Notifkasi Rental Motor Kudus*
+
+------------------------------------------------------------------------------------------
+
+$pesan
+
+Terima Kasih,
+Rental Motor Kudus
+
+------------------------------------------------------------------------------------------
+
+Rental Motor Kudus
+Trengguluh, Honggosoco, Kec. Jekulo, Kabupaten Kudus, Jawa Tengah
+Indonesia
+";
+
+        try {
+            $sid    = env('TWILIO_SID');
+            $token  = env('TWILIO_AUTH_TOKEN');
+            $twilio = new Client($sid, $token);
+
+            $twilio->messages->create(
+                "whatsapp:$no_telp",
+                [
+                    "from" => env('TWILIO_WHATSAPP_FROM'),
+                    "body" => $formattedMessage
+                ]
+            );
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'WhatsApp notifikasi gagal dikirim.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        try {
+            $mailData = [
+                'pesan' => $pesan,
+            ];
+
+            Mail::to($history->email)->send(new NotificationMail($mailData));
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Email notifikasi gagal dikirim.',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+
+        $notification = Notification::create([
+            'history_id' => $history->id,
+            'pesan' => $pesan,
+        ]);
     }
 
     private function updatePendingPaymentStatus()

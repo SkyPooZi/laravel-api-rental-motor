@@ -36,6 +36,8 @@ Route::group(["prefix" => "/facebook"], function(){
     Route::get('/detail', [FacebookController::class, 'show']);
 });
 
+Route::post('/send-notification', [NotificationController::class, 'send']);
+
 Route::middleware(['web'])->group(function () {
     Route::get('/login/google', [UserController::class, 'redirectToGoogle']);
     Route::get('/login/google/callback', [UserController::class, 'handleGoogleCallback']);
