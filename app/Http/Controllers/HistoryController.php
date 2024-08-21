@@ -288,6 +288,31 @@ Indonesia
         }
     }
 
+    public function getFilteredStatusHistory(Request $request)
+    {
+        $filter = $request->query('filter', 'Semua');
+
+        if ($filter === 'Semua') {
+            $history = History::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
+        } else {
+            $history = History::with(['user', 'listMotor', 'diskon', 'ulasan'])
+                ->where('status_history', $filter)
+                ->get();
+        }
+
+        if ($history->count() > 0) {
+            return response()->json([
+                'status' => 200,
+                'history' => $history,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data history user tidak ditemukan',
+            ], 404);
+        }
+    }
+
     public function getFilteredHistory(Request $request)
     {
         $filter = $request->query('filter', '7_hari');

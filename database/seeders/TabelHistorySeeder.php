@@ -59,7 +59,7 @@ class TabelHistorySeeder extends Seeder
             'diskon_id' => 2,
             'metode_pembayaran' => 'Non-Tunai',
             'total_pembayaran' => '840000',
-            'status_history' => 'Menunggu Pembayaran',
+            'status_history' => 'Dipesan',
             'ulasan_id' => 1,
             'tanggal_pembatalan' => null,
             'alasan_pembatalan' => null,
