@@ -157,42 +157,46 @@ class HistoryController extends Controller
 
     private function notifyPendingPaymentStatus()
     {
+        \Log::info('Schedule Notification Menunggu Pembayaran: ' . now());
         $histories = History::where('status_history', 'Menunggu Pembayaran')
             ->where('created_at', '<', Carbon::now()->subHours(22))
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->user->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
+            $pesan = "Halo {$history->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
             $this->sendNotification($history, $pesan);
         }
     }
 
     private function notifyOrderedStatus()
     {
+        \Log::info('Schedule Notification Dipesan: ' . now());
         $histories = History::where('status_history', 'Dipesan')
             ->where('tanggal_mulai', '<=', Carbon::now()->addHours(2))
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->user->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
+            $pesan = "Halo {$history->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
             $this->sendNotification($history, $pesan);
         }
     }
 
     private function notifyInUseStatus()
     {
+        \Log::info('Schedule Notification Sedang Digunakan: ' . now());
         $histories = History::where('status_history', 'Sedang Digunakan')
             ->where('tanggal_selesai', '<=', Carbon::now()->addHours(2))
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->user->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
+            $pesan = "Halo {$history->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
             $this->sendNotification($history, $pesan);
         }
     }
 
     private function sendNotification($history, $pesan)
     {
+        \Log::info('Schedule Notification Running: ' . now());
         $no_telp = $history->no_telp;
 
         $formattedMessage = "
@@ -254,6 +258,7 @@ Indonesia
 
     private function updatePendingPaymentStatus()
     {
+        \Log::info('Schedule Update Status Menunggu Pembayaran: ' . now());
         $pendingHistories = History::where('status_history', 'Menunggu Pembayaran')
             ->where('created_at', '<', Carbon::now()->subDay())
             ->get();
@@ -266,6 +271,7 @@ Indonesia
 
     private function updateOrderedStatus()
     {
+        \Log::info('Schedule Update Status Dipesan: ' . now());
         $orderedHistories = History::where('status_history', 'Dipesan')
             ->where('tanggal_mulai', '<=', Carbon::now())
             ->get();
@@ -278,6 +284,7 @@ Indonesia
 
     private function updateInUseStatus()
     {
+        \Log::info('Schedule Update Status Sedang Digunakan: ' . now());
         $inUseHistories = History::where('status_history', 'Sedang Digunakan')
             ->where('tanggal_selesai', '<=', Carbon::now())
             ->get();
