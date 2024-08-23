@@ -164,8 +164,14 @@ class HistoryController extends Controller
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
-            $this->sendNotification($history, $pesan);
+            $notificationExists = Notification::where('history_id', $history->id)
+                ->where('status_history', 'Menunggu Pembayaran')
+                ->exists();
+
+            if (!$notificationExists) {
+                $pesan = "Halo {$history->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
+                $this->sendNotification($history, $pesan);
+            }
         }
         \Log::info('Schedule Notification Menunggu Pembayaran Stop: ' . now());
     }
@@ -178,8 +184,14 @@ class HistoryController extends Controller
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
-            $this->sendNotification($history, $pesan);
+            $notificationExists = Notification::where('history_id', $history->id)
+                ->where('status_history', 'Dipesan')
+                ->exists();
+
+            if (!$notificationExists) {
+                $pesan = "Halo {$history->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
+                $this->sendNotification($history, $pesan);
+            }
         }
         \Log::info('Schedule Notification Dipesan Stop: ' . now());
     }
@@ -192,15 +204,21 @@ class HistoryController extends Controller
             ->get();
 
         foreach ($histories as $history) {
-            $pesan = "Halo {$history->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
-            $this->sendNotification($history, $pesan);
+            $notificationExists = Notification::where('history_id', $history->id)
+                ->where('status_history', 'Sedang Digunakan')
+                ->exists();
+
+            if (!$notificationExists) {
+                $pesan = "Halo {$history->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
+                $this->sendNotification($history, $pesan);
+            }
         }
         \Log::info('Schedule Notification Sedang Digunakan Stop: ' . now());
     }
 
     private function sendNotification($history, $pesan)
     {
-        \Log::info('Schedule Notification Running: ' . now());
+        \Log::info('Schedule Notification' . $history->status_history . 'Running: ' . now());
         $no_telp = $history->no_telp;
 
         $formattedMessage = "
@@ -256,6 +274,7 @@ Indonesia
 
         $notification = Notification::create([
             'history_id' => $history->id,
+            'status_history' => $history->status_history,
             'pesan' => $pesan,
         ]);
 
@@ -273,6 +292,7 @@ Indonesia
         foreach ($pendingHistories as $history) {
             $history->status_history = 'Dibatalkan';
             $history->save();
+            \Log::info('Notification Update Status Menunggu Pembayara Data: ' . $history);
         }
         \Log::info('Schedule Update Status Menunggu Pembayaran Stop: ' . now());
     }
@@ -287,6 +307,7 @@ Indonesia
         foreach ($orderedHistories as $history) {
             $history->status_history = 'Sedang Digunakan';
             $history->save();
+            \Log::info('Notification Update Status Dipesan Data: ' . $history);
         }
         \Log::info('Schedule Update Status Dipesan Stop: ' . now());
     }
@@ -301,6 +322,7 @@ Indonesia
         foreach ($inUseHistories as $history) {
             $history->status_history = 'Selesai';
             $history->save();
+            \Log::info('Notification Update Status Sedang Digunakan Data: ' . $history);
         }
         \Log::info('Schedule Update Status Sedang Digunakan Stop: ' . now());
     }

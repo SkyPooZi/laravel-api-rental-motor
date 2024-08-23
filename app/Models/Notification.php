@@ -13,6 +13,7 @@ class Notification extends Model
     
     protected $fillable = [
         'history_id',
+        'status_history',
         'pesan',
     ];
 
