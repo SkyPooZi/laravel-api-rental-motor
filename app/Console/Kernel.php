@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
         $schedule->call(function () {
             \Log::info('Schedule running: ' . now());
             app(\App\Http\Controllers\HistoryController::class)->updateStatuses();
+            \Log::info('Schedule Stop: ' . now());
         })->everyMinute();
     }
 
