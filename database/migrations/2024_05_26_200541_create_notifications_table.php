@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->foreignId('history_id');
+            $table->string('status_history');
             $table->string('pesan');
             $table->timestamps();
         });
