@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\History;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\NotificationMail;
@@ -166,6 +167,7 @@ class HistoryController extends Controller
             $pesan = "Halo {$history->nama_lengkap}, Anda memiliki waktu 2 jam lagi untuk menyelesaikan pembayaran untuk pesanan Anda. Jika tidak, pesanan Anda akan otomatis dibatalkan.";
             $this->sendNotification($history, $pesan);
         }
+        \Log::info('Schedule Notification Menunggu Pembayaran Stop: ' . now());
     }
 
     private function notifyOrderedStatus()
@@ -179,6 +181,7 @@ class HistoryController extends Controller
             $pesan = "Halo {$history->nama_lengkap}, motor yang Anda pesan akan segera siap dalam 2 jam. Mohon bersiap untuk mengambil atau menerima motor Anda.";
             $this->sendNotification($history, $pesan);
         }
+        \Log::info('Schedule Notification Dipesan Stop: ' . now());
     }
 
     private function notifyInUseStatus()
@@ -192,6 +195,7 @@ class HistoryController extends Controller
             $pesan = "Halo {$history->nama_lengkap}, motor yang Anda gunakan harus dikembalikan dalam 2 jam. Jika Anda melebihi waktu yang ditentukan, Anda akan dikenakan biaya tambahan sebesar 1 hari sesuai dengan motor yang Anda booking.";
             $this->sendNotification($history, $pesan);
         }
+        \Log::info('Schedule Notification Sedang Digunakan Stop: ' . now());
     }
 
     private function sendNotification($history, $pesan)
@@ -254,6 +258,9 @@ Indonesia
             'history_id' => $history->id,
             'pesan' => $pesan,
         ]);
+
+        \Log::info('Notification Create Data: ' . $notification);
+        \Log::info('Schedule Notification Stop: ' . now());
     }
 
     private function updatePendingPaymentStatus()
@@ -267,6 +274,7 @@ Indonesia
             $history->status_history = 'Dibatalkan';
             $history->save();
         }
+        \Log::info('Schedule Update Status Menunggu Pembayaran Stop: ' . now());
     }
 
     private function updateOrderedStatus()
@@ -280,6 +288,7 @@ Indonesia
             $history->status_history = 'Sedang Digunakan';
             $history->save();
         }
+        \Log::info('Schedule Update Status Dipesan Stop: ' . now());
     }
 
     private function updateInUseStatus()
@@ -293,6 +302,7 @@ Indonesia
             $history->status_history = 'Selesai';
             $history->save();
         }
+        \Log::info('Schedule Update Status Sedang Digunakan Stop: ' . now());
     }
 
     public function getFilteredStatusHistory(Request $request)
