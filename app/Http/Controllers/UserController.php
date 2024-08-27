@@ -167,6 +167,8 @@ class UserController extends Controller
 
             $user = User::where('email', $googleUser->getEmail())->first();
 
+            $googleRedirectUri = Config::get('services.login.redirect');
+
             if (!$user) {
                 $randomPassword = $this->generateRandomPassword(15);
                 $hashedPassword = Hash::make($randomPassword);
@@ -187,7 +189,7 @@ class UserController extends Controller
                     'tanggal_masuk' => now(),
                 ]);
 
-                return redirect('http://localhost:3000/login/google')->with([
+                return redirect($googleRedirectUri.'/login/google')->with([
                     'status' => 200,
                     'message' => 'Register account google successful',
                     'access_token' => $token,
@@ -221,7 +223,7 @@ class UserController extends Controller
                 $google->save();
             }
 
-            return redirect('http://localhost:3000/login/google')->with([
+            return redirect($googleRedirectUri.'/login/google')->with([
                 'status' => 200,
                 'message' => 'Login account google successful',
                 'access_token' => $token,
@@ -245,6 +247,8 @@ class UserController extends Controller
 
             $user = User::where('email', $facebookUser->getEmail())->first();
 
+            $facebookRedirectUri = Config::get('services.login.redirect');
+
             if (!$user) {
                 $randomPassword = $this->generateRandomPassword(15);
                 $hashedPassword = Hash::make($randomPassword);
@@ -265,7 +269,7 @@ class UserController extends Controller
                     'tanggal_masuk' => now(),
                 ]);
 
-                return redirect('http://localhost:3000/login/facebook')->with([
+                return redirect($facebookRedirectUri.'/login/facebook')->with([
                     'status' => 200,
                     'message' => 'Register account facebook successful',
                     'access_token' => $token,
@@ -299,7 +303,7 @@ class UserController extends Controller
                 $facebook->save();
             }
 
-            return redirect('http://localhost:3000/login/facebook')->with([
+            return redirect($facebookRedirectUri.'/login/facebook')->with([
                 'status' => 200,
                 'message' => 'Login account facebook successful',
                 'access_token' => $token,
