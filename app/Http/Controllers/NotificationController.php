@@ -111,7 +111,7 @@ Indonesia
 
     public function index()
     {
-        $notification = Notification::with(['user'])->get();
+        $notification = Notification::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
 
         if($notification->count() > 0 ){
             return response()->json([
@@ -177,7 +177,7 @@ Indonesia
 
     public function show($id)
     {
-        $notification = Notification::with(['user'])->find($id);
+        $notification = Notification::with(['user', 'listMotor', 'diskon', 'ulasan'])->find($id);
         
         if($notification){
             return response()->json([

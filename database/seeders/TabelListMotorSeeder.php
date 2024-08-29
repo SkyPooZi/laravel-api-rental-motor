@@ -23,8 +23,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 1,
             'harga_motor_per_1_hari' => (200000 * 0.25) + 200000,
             'harga_motor_per_1_minggu' => (1200000 * 0.25) + 1200000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -35,8 +36,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (200000 * 0.25) + 200000,
             'harga_motor_per_1_minggu' => (1200000 * 0.25) + 1200000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         //Premium Matic
@@ -49,8 +51,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (200000 * 0.25) + 200000,
             'harga_motor_per_1_minggu' => (1200000 * 0.25) + 1200000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -61,8 +64,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (200000 * 0.25) + 200000,
             'harga_motor_per_1_minggu' => (1200000 * 0.25) + 1200000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -73,8 +77,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (175000 * 0.25) + 175000,
             'harga_motor_per_1_minggu' => (1050000 * 0.25) + 1050000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -85,8 +90,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (175000 * 0.25) + 175000,
             'harga_motor_per_1_minggu' => (1050000 * 0.25) + 1050000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         //Matic
@@ -99,8 +105,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (160000 * 0.25) + 160000,
             'harga_motor_per_1_minggu' => (960000 * 0.25) + 960000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -111,8 +118,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (150000 * 0.25) + 150000,
             'harga_motor_per_1_minggu' => (900000 * 0.25) + 900000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -123,8 +131,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (150000 * 0.25) + 150000,
             'harga_motor_per_1_minggu' => (900000 * 0.25) + 900000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -135,8 +144,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (110000 * 0.25) + 110000,
             'harga_motor_per_1_minggu' => (750000 * 0.25) + 750000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -147,8 +157,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (125000 * 0.25) + 125000,
             'harga_motor_per_1_minggu' => (750000 * 0.25) + 750000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -159,8 +170,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (100000 * 0.25) + 100000,
             'harga_motor_per_1_minggu' => (600000 * 0.25) + 600000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -171,8 +183,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (100000 * 0.25) + 100000,
             'harga_motor_per_1_minggu' => (600000 * 0.25) + 600000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -183,8 +196,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (100000 * 0.25) + 100000,
             'harga_motor_per_1_minggu' =>(600000 * 0.25) + 600000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
 
         ListMotor::create([
@@ -195,8 +209,9 @@ class TabelListMotorSeeder extends Seeder
             'stok_motor' => 2,
             'harga_motor_per_1_hari' => (80000 * 0.25) + 80000,
             'harga_motor_per_1_minggu' =>(500000 * 0.25) + 500000,
-            'fasilitas_motor' => '2 Helm dan 2 Jas Hujan',
             'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
         ]);
     }
 }
