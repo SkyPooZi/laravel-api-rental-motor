@@ -361,6 +361,9 @@ Indonesia
             case '4_minggu':
                 $startDate = $now->copy()->startOfWeek()->subWeeks(4);
                 break;
+            case '1_bulan':
+                $startDate = $now->copy()->startOfMonth()->subMonth();
+                break;
             case '6_bulan':
                 $startDate = $now->copy()->startOfMonth()->subMonths(6);
                 break;
