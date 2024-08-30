@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('pengguna_id');
             $table->string('nama_lengkap');
             $table->string('email');
-            $table->string('no_telp', 20);
+            $table->string('nomor_hp', 20);
             $table->string('akun_sosmed');
             $table->text('alamat');
             $table->string('penyewa');

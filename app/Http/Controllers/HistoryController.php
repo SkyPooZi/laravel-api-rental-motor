@@ -38,7 +38,7 @@ class HistoryController extends Controller
             'pengguna_id' => 'required',
             'nama_lengkap' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'no_telp' => 'required|string|max:20',
+            'nomor_hp' => 'required|string|max:20',
             'akun_sosmed' => 'required|string|max:255',
             'alamat' => 'required|string',
             'penyewa' => 'required|string',
@@ -67,7 +67,7 @@ class HistoryController extends Controller
                 'pengguna_id' => $request->pengguna_id,
                 'nama_lengkap' => $request->nama_lengkap,
                 'email' => $request->email,
-                'no_telp' => $request->no_telp,
+                'nomor_hp' => $request->nomor_hp,
                 'akun_sosmed' => $request->akun_sosmed,
                 'alamat' => $request->alamat,
                 'penyewa' => $request->penyewa,
@@ -95,7 +95,7 @@ class HistoryController extends Controller
                         "pengguna_id" => $history->pengguna_id,
                         "nama_lengkap" => $history->nama_lengkap,
                         "email" => $history->email,
-                        "no_telp" => $history->no_telp,
+                        "nomor_hp" => $history->nomor_hp,
                         "akun_sosmed" => $history->akun_sosmed,
                         "alamat" => $history->alamat,
                         "penyewa" => $history->penyewa,
@@ -219,7 +219,7 @@ class HistoryController extends Controller
     private function sendNotification($history, $pesan)
     {
         \Log::info('Schedule Notification' . $history->status_history . 'Running: ' . now());
-        $no_telp = $history->no_telp;
+        $nomor_hp = $history->nomor_hp;
 
         $formattedMessage = "
 *Notifkasi Rental Motor Kudus*
@@ -244,7 +244,7 @@ Indonesia
             $twilio = new Client($sid, $token);
 
             $twilio->messages->create(
-                "whatsapp:$no_telp",
+                "whatsapp:$nomor_hp",
                 [
                     "from" => env('TWILIO_WHATSAPP_FROM'),
                     "body" => $formattedMessage
@@ -401,7 +401,7 @@ Indonesia
         $validator = Validator::make($request->all(), [
             'nama_lengkap' => 'string',
             'email' => 'string',
-            'no_telp' => 'string',
+            'nomor_hp' => 'string',
             'akun_sosmed' => 'string',
             'alamat' => 'string',
             'penyewa' => 'string',
@@ -435,7 +435,7 @@ Indonesia
                 $history->fill($request->only([
                     'nama_lengkap',
                     'email',
-                    'no_telp',
+                    'nomor_hp',
                     'akun_sosmed',
                     'alamat',
                     'penyewa',
