@@ -122,7 +122,7 @@ class ListMotorController extends Controller
         \Log::info('Schedule Cek Motor Running: ' . now());
 
         // Ambil semua motor yang memiliki tanggal mulai dan selesai ketidaktersediaan
-        $motors = Motor::whereNotNull('tanggal_mulai_tidak_tersedia')
+        $motors = ListMotor::whereNotNull('tanggal_mulai_tidak_tersedia')
             ->whereNotNull('tanggal_selesai_tidak_tersedia')
             ->get();
 
