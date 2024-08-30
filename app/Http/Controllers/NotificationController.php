@@ -111,7 +111,7 @@ Indonesia
 
     public function index()
     {
-        $notification = Notification::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
+        $notification = Notification::with(['user', 'diskon', 'history.user', 'history.listMotor', 'history.diskon', 'history.ulasan'])->get();
 
         if($notification->count() > 0 ){
             return response()->json([
@@ -129,11 +129,11 @@ Indonesia
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'pengguna_id' => 'required',
-            'label' => 'required|string',
+            'pengguna_id' => 'nullable',
+            'diskon_id' => 'nullable',
+            'history_id' => 'nullable',
+            'status_history' => 'nullable',
             'pesan' => 'required|string',
-            'no_telp' => 'required|string',
-            'tanggal_notif' => 'required|date_format:Y-m-d H:i:s',
         ]);
 
         if($validator->fails()){
@@ -145,10 +145,10 @@ Indonesia
 
             $notification = Notification::create([
                 'pengguna_id' => $request->pengguna_id,
-                'label' => $request->label,
+                'diskon_id' => $request->diskon_id,
+                'history_id' => $request->history_id,
+                'status_history' => $request->status_history,
                 'pesan' => $request->pesan,
-                'no_telp' => $request->no_telp,
-                'tanggal_notif' => $request->tanggal_notif,
             ]);
 
             if($notification){
@@ -158,10 +158,10 @@ Indonesia
                     'notification' => [
                         "id" => $notification->id,
                         "pengguna_id" => $notification->pengguna_id,
-                        "label" => $notification->label,
+                        "diskon_id" => $notification->diskon_id,
+                        "history_id" => $notification->history_id,
+                        "status_history" => $notification->status_history,
                         "pesan" => $notification->pesan,
-                        "no_telp" => $notification->no_telp,
-                        "tanggal_notif" => $notification->tanggal_notif,
                         "updated_at" => $notification->updated_at,
                         "created_at"=> $notification->created_at,
                     ],
@@ -195,10 +195,11 @@ Indonesia
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'label' => 'required|string',
+            'pengguna_id' => 'nullable',
+            'diskon_id' => 'nullable',
+            'history_id' => 'nullable',
+            'status_history' => 'nullable',
             'pesan' => 'required|string',
-            'no_telp' => 'required|string',
-            'tanggal_notif' => 'required|date_format:Y-m-d H:i:s',
         ]);
 
         if($validator->fails()){
@@ -210,10 +211,11 @@ Indonesia
             $notification = Notification::find($id);
             if($notification){ 
                 $notification->fill($request->only([
-                    'label',
+                    'pengguna_id',
+                    'diskon_id',
+                    'history_id',
+                    'status_history',
                     'pesan',
-                    'no_telp',
-                    'tanggal_notif',
                 ]));
             
                 $notification->save();

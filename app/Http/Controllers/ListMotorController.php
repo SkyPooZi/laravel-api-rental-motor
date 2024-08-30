@@ -38,8 +38,8 @@ class ListMotorController extends Controller
             'harga_motor_per_1_hari' => 'required|int',
             'harga_motor_per_1_minggu' => 'required|int',
             'status_motor' => 'required|string|max:191',
-            'tanggal_mulai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
-            'tanggal_selesai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
+            'tanggal_mulai_tidak_tersedia' => 'nullable|date',
+            'tanggal_selesai_tidak_tersedia' => 'nullable|date',
         ]);
 
         if($validator->fails()){
@@ -122,9 +122,9 @@ class ListMotorController extends Controller
             'stok_motor' => 'int',
             'harga_motor_per_1_hari' => 'int',
             'harga_motor_per_1_minggu' => 'int',
-            'fasilitas_motor' => 'string|max:191',
-            'tanggal_mulai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
-            'tanggal_selesai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
+            'status_motor' => 'required|string|max:191',
+            'tanggal_mulai_tidak_tersedia' => 'date',
+            'tanggal_selesai_tidak_tersedia' => 'date',
         ]);
 
         if($validator->fails()){

@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Diskon;
 use App\Models\User;
+use App\Models\Notification;
+use App\Mail\NotificationMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Lang;
+use Twilio\Rest\Client;
 
 class DiskonController extends Controller
 {
@@ -61,12 +66,10 @@ class DiskonController extends Controller
             $users = User::where('peran', 'user')->get(); // Get all users with role 'user'
         
             foreach ($users as $user) {
+                // SendNotificationDiscountJob::dispatch($user, $diskon);
                 $pesan = "
 🔥 Penawaran Spesial! Diskon {$diskon->potongan_harga}% untuk {$diskon->nama_diskon}! 🔥
-Jangan lewatkan kesempatan ini untuk menikmati perjalanan Anda dengan harga lebih hemat! 🚀
-Segera sewa motor pilihan Anda dan rasakan perbedaannya. ✨
 Diskon berlaku mulai {$diskon->tanggal_mulai} hingga {$diskon->tanggal_selesai}.
-Pesan sekarang sebelum kehabisan! 🚴💨
 ";
 
                 $formattedMessage = "
@@ -74,7 +77,11 @@ Pesan sekarang sebelum kehabisan! 🚴💨
 
 ------------------------------------------------------------------------------------------
 
-$pesan
+🔥 Penawaran Spesial! Diskon {$diskon->potongan_harga}% untuk {$diskon->nama_diskon}! 🔥
+Jangan lewatkan kesempatan ini untuk menikmati perjalanan Anda dengan harga lebih hemat! 🚀
+Segera sewa motor pilihan Anda dan rasakan perbedaannya. ✨
+Diskon berlaku mulai {$diskon->tanggal_mulai} hingga {$diskon->tanggal_selesai}.
+Pesan sekarang sebelum kehabisan! 🚴💨
 
 Terima Kasih,
 Rental Motor Kudus
@@ -86,21 +93,21 @@ Trengguluh, Honggosoco, Kec. Jekulo, Kabupaten Kudus, Jawa Tengah
 Indonesia
 ";
 
-                try {
-                    $sid    = env('TWILIO_SID');
-                    $token  = env('TWILIO_AUTH_TOKEN');
-                    $twilio = new Client($sid, $token);
+                // try {
+                //     $sid    = env('TWILIO_SID');
+                //     $token  = env('TWILIO_AUTH_TOKEN');
+                //     $twilio = new Client($sid, $token);
 
-                    $twilio->messages->create(
-                        "whatsapp:{$user->nomor_hp}", // Using the user's phone number
-                        [
-                            "from" => env('TWILIO_WHATSAPP_FROM'),
-                            "body" => $formattedMessage
-                        ]
-                    );
-                } catch (\Exception $e) {
-                    \Log::error("WhatsApp notifikasi gagal dikirim ke {$user->nomor_hp}: " . $e->getMessage());
-                }
+                //     $twilio->messages->create(
+                //         "whatsapp:{$user->nomor_hp}", // Using the user's phone number
+                //         [
+                //             "from" => env('TWILIO_WHATSAPP_FROM'),
+                //             "body" => $formattedMessage
+                //         ]
+                //     );
+                // } catch (\Exception $e) {
+                //     \Log::error("WhatsApp notifikasi gagal dikirim ke {$user->nomor_hp}: " . $e->getMessage());
+                // }
 
                 try {
                     $mailData = [
@@ -113,15 +120,16 @@ Indonesia
                 }
 
                 $notifikasi = Notification::create([
-                    'user_id' => $user->id,
+                    'pengguna_id' => $user->id,
+                    'diskon_id' => $diskon->id,
                     'pesan' => $pesan,
                 ]);
             }
 
-            if($diskon && $notifikasi){
+            if($diskon){
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Data diskon berhasil ditambahkan dan WhatsApp notifikasi berhasil dikirim.',
+                    'message' => 'Data diskon berhasil ditambahkan dan Email notifikasi berhasil dikirim.',
                     'diskon' => [
                         "id" => $diskon->id,
                         "gambar" => $diskon->gambar,
