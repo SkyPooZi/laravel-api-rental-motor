@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/list-motor"], function(){
         Route::post('/create', [ListMotorController::class, 'store']);
         Route::post('/edit/{id}', [ListMotorController::class, 'update']);
+        Route::post('/editDate/{id}', [ListMotorController::class, 'updateDate']);
         Route::delete('/delete/{id}', [ListMotorController::class, 'destroy']);
     });
     

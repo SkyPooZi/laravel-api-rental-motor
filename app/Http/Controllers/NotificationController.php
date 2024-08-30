@@ -199,7 +199,7 @@ Indonesia
             'diskon_id' => 'nullable',
             'history_id' => 'nullable',
             'status_history' => 'nullable',
-            'pesan' => 'required|string',
+            'pesan' => 'string',
         ]);
 
         if($validator->fails()){
