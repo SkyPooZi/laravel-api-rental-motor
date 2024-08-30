@@ -15,7 +15,7 @@ class History extends Model
         'pengguna_id',
         'nama_lengkap',
         'email',
-        'no_telp',
+        'nomor_hp',
         'akun_sosmed',
         'alamat',
         'penyewa',
