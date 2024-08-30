@@ -81,8 +81,8 @@ class ListMotorController extends Controller
                         "harga_motor_per_1_hari" => $listMotor->harga_motor_per_1_hari,
                         "harga_motor_per_1_minggu" => $listMotor->harga_motor_per_1_minggu,
                         "status_motor" => $listMotor->status_motor,
-                        "tanggal_mulai_tidak_tersedia" => $history->tanggal_mulai_tidak_tersedia,
-                        "tanggal_selesai_tidak_tersedia" => $history->tanggal_selesai_tidak_tersedia,
+                        "tanggal_mulai_tidak_tersedia" => $listMotor->tanggal_mulai_tidak_tersedia,
+                        "tanggal_selesai_tidak_tersedia" => $listMotor->tanggal_selesai_tidak_tersedia,
                         "updated_at" => $listMotor->updated_at,
                         "created_at" => $listMotor->created_at,
                     ],
@@ -110,6 +110,57 @@ class ListMotorController extends Controller
                 'message' => 'Data motor tidak ditemukan',
             ], 404);
         }
+    }
+
+    public function updateMotorStatus()
+    {
+        $this->checkMotorAvailability();
+    }
+
+    public function checkMotorAvailability()
+    {
+        \Log::info('Schedule Cek Motor Running: ' . now());
+
+        // Ambil semua motor yang memiliki tanggal mulai dan selesai ketidaktersediaan
+        $motors = Motor::whereNotNull('tanggal_mulai_tidak_tersedia')
+            ->whereNotNull('tanggal_selesai_tidak_tersedia')
+            ->get();
+
+        foreach ($motors as $motor) {
+            $motor_id = $motor->id;
+            $tanggal_mulai = $motor->tanggal_mulai_tidak_tersedia;
+            $tanggal_selesai = $motor->tanggal_selesai_tidak_tersedia;
+
+            // Hitung total booking yang mencakup tanggal mulai dan selesai ketidaktersediaan
+            $totalBooked = History::where('motor_id', $motor_id)
+                ->where(function($query) use ($tanggal_mulai, $tanggal_selesai) {
+                    $query->whereBetween('tanggal_mulai', [$tanggal_mulai, $tanggal_selesai])
+                        ->orWhereBetween('tanggal_selesai', [$tanggal_mulai, $tanggal_selesai])
+                        ->orWhere(function($query) use ($tanggal_mulai, $tanggal_selesai) {
+                            $query->where('tanggal_mulai', '<=', $tanggal_mulai)
+                                ->where('tanggal_selesai', '>=', $tanggal_selesai);
+                        });
+                })
+                ->count();
+
+            \Log::info('Total Booked for Motor ID ' . $motor_id . ': ' . $totalBooked);
+
+            // Update status motor berdasarkan stok dan total booking
+            if ($motor->stok_motor > $totalBooked) {
+                $motor->status_motor = 'Tersedia';
+                $motor->tanggal_mulai_tidak_tersedia = null;
+                $motor->tanggal_selesai_tidak_tersedia = null;
+                \Log::info('Motor ID ' . $motor_id . ' updated to Tersedia');
+            } else {
+                $motor->status_motor = 'Tidak Tersedia';
+                \Log::info('Motor ID ' . $motor_id . ' updated to Tidak Tersedia');
+            }
+
+            // Simpan perubahan status motor
+            $motor->save();
+        }
+
+        \Log::info('Schedule Cek Motor Stop: ' . now());
     }
 
     public function update(Request $request, int $id)

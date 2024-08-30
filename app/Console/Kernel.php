@@ -14,7 +14,12 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             \Log::info('Schedule running: ' . now());
+            \Log::info('Schedule History running: ' . now());
             app(\App\Http\Controllers\HistoryController::class)->updateStatuses();
+            \Log::info('Schedule History stop: ' . now());
+            \Log::info('Schedule List Motor running: ' . now());
+            app(\App\Http\Controllers\ListMotorController::class)->updateMotorStatus();
+            \Log::info('Schedule List Motor stop: ' . now());
             \Log::info('Schedule Stop: ' . now());
         })->everyMinute();
     }
