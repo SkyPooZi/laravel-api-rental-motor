@@ -218,7 +218,7 @@ class HistoryController extends Controller
 
     private function sendNotification($history, $pesan)
     {
-        \Log::info('Schedule Notification' . $history->status_history . 'Running: ' . now());
+        \Log::info('Schedule Notification ' . $history->status_history . ' Running: ' . now());
         $nomor_hp = $history->nomor_hp;
 
         $formattedMessage = "
