@@ -114,53 +114,45 @@ class ListMotorController extends Controller
 
     public function updateMotorStatus()
     {
-        $this->checkMotorAvailability();
+        $this->updateAvailableStatus();
     }
 
-    public function checkMotorAvailability()
+    public function updateAvailableStatus()
     {
-        \Log::info('Schedule Cek Motor Running: ' . now());
-
-        // Ambil semua motor yang memiliki tanggal mulai dan selesai ketidaktersediaan
-        $motors = ListMotor::whereNotNull('tanggal_mulai_tidak_tersedia')
-            ->whereNotNull('tanggal_selesai_tidak_tersedia')
+        \Log::info('Schedule Update Status Tersedia ' . now());
+        $listMotor = ListMotor::where('tanggal_selesai_tidak_tersedia', '<', now())
+            ->where('status_motor', '!=', 'Tersedia')
             ->get();
 
-        foreach ($motors as $motor) {
-            $motor_id = $motor->id;
-            $tanggal_mulai = $motor->tanggal_mulai_tidak_tersedia;
-            $tanggal_selesai = $motor->tanggal_selesai_tidak_tersedia;
-
-            // Hitung total booking yang mencakup tanggal mulai dan selesai ketidaktersediaan
-            $totalBooked = History::where('motor_id', $motor_id)
-                ->where(function($query) use ($tanggal_mulai, $tanggal_selesai) {
-                    $query->whereBetween('tanggal_mulai', [$tanggal_mulai, $tanggal_selesai])
-                        ->orWhereBetween('tanggal_selesai', [$tanggal_mulai, $tanggal_selesai])
-                        ->orWhere(function($query) use ($tanggal_mulai, $tanggal_selesai) {
-                            $query->where('tanggal_mulai', '<=', $tanggal_mulai)
-                                ->where('tanggal_selesai', '>=', $tanggal_selesai);
-                        });
-                })
-                ->count();
-
-            \Log::info('Total Booked for Motor ID ' . $motor_id . ': ' . $totalBooked);
-
-            // Update status motor berdasarkan stok dan total booking
-            if ($motor->stok_motor > $totalBooked) {
-                $motor->status_motor = 'Tersedia';
-                $motor->tanggal_mulai_tidak_tersedia = null;
-                $motor->tanggal_selesai_tidak_tersedia = null;
-                \Log::info('Motor ID ' . $motor_id . ' updated to Tersedia');
-            } else {
-                $motor->status_motor = 'Tidak Tersedia';
-                \Log::info('Motor ID ' . $motor_id . ' updated to Tidak Tersedia');
-            }
-
-            // Simpan perubahan status motor
+        foreach ($listMotor as $motor) {
+            $motor->status_motor = 'Tersedia';
+            $motor->tanggal_mulai_tidak_tersedia = null;
+            $motor->tanggal_selesai_tidak_tersedia = null;
             $motor->save();
+            \Log::info('Schedule Update Status Tersedia: ' . $motor);
         }
+        \Log::info('Schedule Update Status Tersedia Stop: ' . now());
+    }
 
-        \Log::info('Schedule Cek Motor Stop: ' . now());
+    public function updateDate(int $id)
+    {
+        $listMotor = ListMotor::find($id);
+        if($listMotor){
+            $listMotor->tanggal_mulai_tidak_tersedia = null;
+            $listMotor->tanggal_selesai_tidak_tersedia = null;
+            $listMotor->save();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Data motor berhasil diupdate',
+                'listMotor' => $listMotor,
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => 'Data motor tidak ditemukan',
+            ], 404);
+        }
     }
 
     public function update(Request $request, int $id)
