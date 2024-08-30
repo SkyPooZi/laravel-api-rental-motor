@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('harga_motor_per_1_hari');
             $table->integer('harga_motor_per_1_minggu');
             $table->string('status_motor');
-            $table->datetime('tanggal_mulai_tidak_tersedia')->nullable();;
-            $table->datetime('tanggal_selesai_tidak_tersedia')->nullable();;
+            $table->date('tanggal_mulai_tidak_tersedia')->nullable();;
+            $table->date('tanggal_selesai_tidak_tersedia')->nullable();;
             $table->timestamps();
         });
     }

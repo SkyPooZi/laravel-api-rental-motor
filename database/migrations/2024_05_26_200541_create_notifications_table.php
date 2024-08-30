@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('history_id');
-            $table->string('status_history');
+            $table->foreignId('pengguna_id')->nullable();
+            $table->foreignId('diskon_id')->nullable();
+            $table->foreignId('history_id')->nullable();
+            $table->string('status_history')->nullable();
             $table->string('pesan');
             $table->timestamps();
         });
