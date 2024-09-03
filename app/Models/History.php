@@ -28,6 +28,7 @@ class History extends Model
         'nama_kontak_darurat',
         'nomor_kontak_darurat',
         'hubungan_dengan_kontak_darurat',
+        'point',
         'diskon_id',
         'metode_pembayaran',
         'total_pembayaran',
