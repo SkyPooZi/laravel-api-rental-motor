@@ -40,6 +40,7 @@ class ListMotorController extends Controller
             'status_motor' => 'required|string|max:191',
             'tanggal_mulai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
             'tanggal_selesai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
+            'is_hidden' => 'required|boolean',
         ]);
 
         if($validator->fails()){
@@ -65,6 +66,7 @@ class ListMotorController extends Controller
                 'status_motor' => $request->status_motor,
                 'tanggal_mulai_tidak_tersedia' => $request->tanggal_mulai_tidak_tersedia,
                 'tanggal_selesai_tidak_tersedia' => $request->tanggal_selesai_tidak_tersedia,
+                'is_hidden' => $request->is_hidden,
             ]);
     
             if($listMotor){
@@ -83,6 +85,7 @@ class ListMotorController extends Controller
                         "status_motor" => $listMotor->status_motor,
                         "tanggal_mulai_tidak_tersedia" => $listMotor->tanggal_mulai_tidak_tersedia,
                         "tanggal_selesai_tidak_tersedia" => $listMotor->tanggal_selesai_tidak_tersedia,
+                        "is_hidden" => $listMotor->is_hidden,
                         "updated_at" => $listMotor->updated_at,
                         "created_at" => $listMotor->created_at,
                     ],
@@ -168,6 +171,7 @@ class ListMotorController extends Controller
             'status_motor' => 'required|string|max:191',
             'tanggal_mulai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
             'tanggal_selesai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
+            'is_hidden' => 'boolean',
         ]);
 
         if($validator->fails()){
@@ -195,6 +199,7 @@ class ListMotorController extends Controller
                     'status_motor',
                     'tanggal_mulai_tidak_tersedia',
                     'tanggal_selesai_tidak_tersedia',
+                    'is_hidden',
                 ]));
             
                 $listMotor->save();
