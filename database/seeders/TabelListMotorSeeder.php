@@ -26,6 +26,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -39,6 +40,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         //Premium Matic
@@ -54,6 +56,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -67,6 +70,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -80,6 +84,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -93,6 +98,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         //Matic
@@ -108,6 +114,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -121,6 +128,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -134,6 +142,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -147,6 +156,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -160,6 +170,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -173,6 +184,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -186,6 +198,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
 
         ListMotor::create([
@@ -199,6 +212,21 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
+        ]);
+        
+        ListMotor::create([
+            'gambar_motor' => 'images/mio_sporty.png',
+            'nama_motor' => 'Abid',
+            'tipe_motor' => 'bide',
+            'merk_motor' => 'bido',
+            'stok_motor' => 2,
+            'harga_motor_per_1_hari' => (80000 * 0.25) + 80000,
+            'harga_motor_per_1_minggu' =>(500000 * 0.25) + 500000,
+            'status_motor' => 'Tersedia',
+            'tanggal_mulai_tidak_tersedia' => null,
+            'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => true,
         ]);
 
         ListMotor::create([
@@ -212,6 +240,7 @@ class TabelListMotorSeeder extends Seeder
             'status_motor' => 'Tersedia',
             'tanggal_mulai_tidak_tersedia' => null,
             'tanggal_selesai_tidak_tersedia' => null,
+            'is_hidden' => false,
         ]);
     }
 }

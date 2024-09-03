@@ -22,5 +22,6 @@ class ListMotor extends Model
         'status_motor',
         'tanggal_mulai_tidak_tersedia',
         'tanggal_selesai_tidak_tersedia',
+        'is_hidden',
     ];
 }

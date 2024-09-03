@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\NotificationMail;
@@ -321,6 +322,13 @@ Indonesia
 
         foreach ($inUseHistories as $history) {
             $history->status_history = 'Selesai';
+            
+            $user = User::find($history->pengguna_id);
+            if ($user) {
+                $user->point += 1000;
+                $user->save();
+            }
+
             $history->save();
             \Log::info('Notification Update Status Sedang Digunakan Data: ' . $history);
         }
