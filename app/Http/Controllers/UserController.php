@@ -164,6 +164,8 @@ class UserController extends Controller
     public function handleGoogleCallback()
     {
         try {
+            $googleRedirectUri = Config::get('services.login.redirect');
+            
             if (request()->has('error')) {
                 return redirect($googleRedirectUri.'/login')->with([
                     'status' => 400,
@@ -178,8 +180,6 @@ class UserController extends Controller
             $googleUser = Socialite::driver('google')->user();
 
             $user = User::where('email', $googleUser->getEmail())->first();
-
-            $googleRedirectUri = Config::get('services.login.redirect');
 
             if (!$user) {
                 $randomPassword = $this->generateRandomPassword(15);
@@ -256,6 +256,8 @@ class UserController extends Controller
     public function handleFacebookCallback()
     {
         try {
+            $facebookRedirectUri = Config::get('services.login.redirect');
+
             if (request()->has('error')) {
                 return redirect($facebookRedirectUri.'/login')->with([
                     'status' => 400,
@@ -270,8 +272,6 @@ class UserController extends Controller
             $facebookUser = Socialite::driver('facebook')->user();
 
             $user = User::where('email', $facebookUser->getEmail())->first();
-
-            $facebookRedirectUri = Config::get('services.login.redirect');
 
             if (!$user) {
                 $randomPassword = $this->generateRandomPassword(15);
