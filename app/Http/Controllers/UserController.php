@@ -164,6 +164,17 @@ class UserController extends Controller
     public function handleGoogleCallback()
     {
         try {
+            if (request()->has('error')) {
+                return redirect($googleRedirectUri.'/login')->with([
+                    'status' => 400,
+                    'message' => 'Terjadi kesalahan saat login akun dengan Google',
+                    'error' => [
+                        'type' => 'Kesalahan Autentikasi',
+                        'details' => 'Autentikasi Google gagal karena kredensial tidak valid atau masalah jaringan.',
+                    ]
+                ], 400);
+            }
+            
             $googleUser = Socialite::driver('google')->user();
 
             $user = User::where('email', $googleUser->getEmail())->first();
@@ -177,6 +188,7 @@ class UserController extends Controller
                 $user = User::create([
                     'gambar' => $googleUser->getAvatar(),
                     'nama_pengguna' => $googleUser->getName(),
+                    'nama_lengkap' => $googleUser->getName(),
                     'email' => $googleUser->getEmail(),
                     'password' => $hashedPassword,
                     'google_id' => $googleUser->getId(),
@@ -198,7 +210,7 @@ class UserController extends Controller
                         "id" => $user->id,
                         "gambar" => $user->gambar,
                         "nama_pengguna" => $user->nama_pengguna,
-                        "nama_lengkap" => null,
+                        "nama_lengkap" => $user->nama_lengkap,
                         "email" => $user->email,
                         "password" => $hashedPassword,
                         "google_id" => $user->google_id,
@@ -244,6 +256,17 @@ class UserController extends Controller
     public function handleFacebookCallback()
     {
         try {
+            if (request()->has('error')) {
+                return redirect($facebookRedirectUri.'/login')->with([
+                    'status' => 400,
+                    'message' => 'Terjadi kesalahan saat login akun dengan Facebook',
+                    'error' => [
+                        'type' => 'Kesalahan Autentikasi',
+                        'details' => 'Autentikasi Facebook gagal karena kredensial tidak valid atau masalah jaringan.',
+                    ]
+                ], 400);
+            }
+
             $facebookUser = Socialite::driver('facebook')->user();
 
             $user = User::where('email', $facebookUser->getEmail())->first();
@@ -257,6 +280,7 @@ class UserController extends Controller
                 $user = User::create([
                     'gambar' => $facebookUser->getAvatar(),
                     'nama_pengguna' => $facebookUser->getName(),
+                    'nama_lengkap' => $facebookUser->getName(),
                     'email' => $facebookUser->getEmail(),
                     'password' => $hashedPassword,
                     'facebook_id' => $facebookUser->getId(),
@@ -278,7 +302,7 @@ class UserController extends Controller
                         "id" => $user->id,
                         "gambar" => $user->gambar,
                         "nama_pengguna" => $user->nama_pengguna,
-                        "nama_lengkap" => null,
+                        "nama_lengkap" => $user->nama_lengkap,
                         "email" => $user->email,
                         "password" => $hashedPassword,
                         "google_id" => null,
