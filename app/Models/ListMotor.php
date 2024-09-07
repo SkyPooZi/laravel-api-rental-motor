@@ -19,6 +19,7 @@ class ListMotor extends Model
         'stok_motor',
         'harga_motor_per_1_hari',
         'harga_motor_per_1_minggu',
+        'harga_motor_diantar',
         'status_motor',
         'tanggal_mulai_tidak_tersedia',
         'tanggal_selesai_tidak_tersedia',

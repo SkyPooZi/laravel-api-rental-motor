@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('potongan_harga');
             $table->date('tanggal_mulai');
             $table->date('tanggal_selesai');
+            $table->boolean('is_hidden')->default(false);
             $table->timestamps();
         });
     }

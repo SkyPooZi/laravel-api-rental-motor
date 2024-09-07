@@ -37,6 +37,7 @@ class ListMotorController extends Controller
             'stok_motor' => 'required|int',
             'harga_motor_per_1_hari' => 'required|int',
             'harga_motor_per_1_minggu' => 'required|int',
+            'harga_motor_diantar' => 'required|int',
             'status_motor' => 'required|string|max:191',
             'tanggal_mulai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
             'tanggal_selesai_tidak_tersedia' => 'nullable|date_format:Y-m-d H:i:s',
@@ -63,6 +64,7 @@ class ListMotorController extends Controller
                 'stok_motor' => $request->stok_motor,
                 'harga_motor_per_1_hari' => $request->harga_motor_per_1_hari,
                 'harga_motor_per_1_minggu' => $request->harga_motor_per_1_minggu,
+                'harga_motor_diantar' => $request->harga_motor_diantar,
                 'status_motor' => $request->status_motor,
                 'tanggal_mulai_tidak_tersedia' => $request->tanggal_mulai_tidak_tersedia,
                 'tanggal_selesai_tidak_tersedia' => $request->tanggal_selesai_tidak_tersedia,
@@ -82,6 +84,7 @@ class ListMotorController extends Controller
                         "stok_motor" => $listMotor->stok_motor,
                         "harga_motor_per_1_hari" => $listMotor->harga_motor_per_1_hari,
                         "harga_motor_per_1_minggu" => $listMotor->harga_motor_per_1_minggu,
+                        'harga_motor_diantar' => $listMotor->harga_motor_diantar,
                         "status_motor" => $listMotor->status_motor,
                         "tanggal_mulai_tidak_tersedia" => $listMotor->tanggal_mulai_tidak_tersedia,
                         "tanggal_selesai_tidak_tersedia" => $listMotor->tanggal_selesai_tidak_tersedia,
@@ -161,6 +164,7 @@ class ListMotorController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
+            'pengguna_id' => '',
             'gambar_motor' => 'file|image|max:2048',
             'nama_motor' => 'string|max:191',
             'tipe_motor' => 'string|max:191',
@@ -168,6 +172,7 @@ class ListMotorController extends Controller
             'stok_motor' => 'int',
             'harga_motor_per_1_hari' => 'int',
             'harga_motor_per_1_minggu' => 'int',
+            'harga_motor_diantar' => 'int',
             'status_motor' => 'required|string|max:191',
             'tanggal_mulai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
             'tanggal_selesai_tidak_tersedia' => 'date_format:Y-m-d H:i:s',
@@ -182,6 +187,8 @@ class ListMotorController extends Controller
         }else{
             $listMotor = ListMotor::find($id);
             if($listMotor){
+                $dataSebelum = $listMotor->toArray();
+
                 if ($request->hasFile('gambar_motor')) {
                     if ($listMotor->gambar_motor) {
                         Storage::disk('public')->delete($listMotor->gambar_motor);
@@ -196,6 +203,7 @@ class ListMotorController extends Controller
                     'stok_motor',
                     'harga_motor_per_1_hari',
                     'harga_motor_per_1_minggu',
+                    'harga_motor_diantar',
                     'status_motor',
                     'tanggal_mulai_tidak_tersedia',
                     'tanggal_selesai_tidak_tersedia',
@@ -203,6 +211,15 @@ class ListMotorController extends Controller
                 ]));
             
                 $listMotor->save();
+
+                $dataSesudah = $listMotor->toArray();
+
+                RiwayatData::create([
+                    'pengguna_id' => $request->pengguna_id,
+                    'data_sebelum' => $dataSebelum,
+                    'data_sesudah' => $dataSesudah,
+                    'datetime' => now(),
+                ]);
 
                 return response()->json([
                     'status' => 200,

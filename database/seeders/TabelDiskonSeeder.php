@@ -19,6 +19,7 @@ class TabelDiskonSeeder extends Seeder
             'potongan_harga' => 0,
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2029-01-01',
+            'is_hidden' => false,
         ]);
 
        Diskon::create([
@@ -27,6 +28,7 @@ class TabelDiskonSeeder extends Seeder
             'potongan_harga' => 10,
             'tanggal_mulai' => '2024-01-01',
             'tanggal_selesai' => '2024-01-31',
+            'is_hidden' => false,
         ]);
 
         Diskon::create([
@@ -35,6 +37,7 @@ class TabelDiskonSeeder extends Seeder
             'potongan_harga' => 15,
             'tanggal_mulai' => '2024-06-01',
             'tanggal_selesai' => '2024-06-30',
+            'is_hidden' => false,
         ]);
 
         Diskon::create([
@@ -43,6 +46,7 @@ class TabelDiskonSeeder extends Seeder
             'potongan_harga' => 20,
             'tanggal_mulai' => '2024-12-01',
             'tanggal_selesai' => '2024-12-31',
+            'is_hidden' => false,
         ]);
     }
 }
