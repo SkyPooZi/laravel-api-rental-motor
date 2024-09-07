@@ -45,7 +45,7 @@ class HistoryController extends Controller
             'penyewa' => 'required|string',
             'motor_id' => 'required',
             'tanggal_mulai' => 'required|date_format:Y-m-d H:i:s',
-            'durasi' => 'required|int',
+            'durasi' => 'required|string',
             'tanggal_selesai' => 'required|date_format:Y-m-d H:i:s',
             'keperluan_menyewa' => 'required|string|max:255',
             'penerimaan_motor' => 'required|string',
@@ -418,7 +418,7 @@ Indonesia
             'penyewa' => 'string',
             'motor_id' => '',
             'tanggal_mulai' => 'date_format:Y-m-d H:i:s',
-            'durasi' => 'int',
+            'durasi' => 'string',
             'tanggal_selesai' => 'date_format:Y-m-d H:i:s',
             'keperluan_menyewa' => 'string|max:255',
             'penerimaan_motor' => 'string',
@@ -444,6 +444,8 @@ Indonesia
             $history = History::find($id);
 
             if($history) {
+                $dataSebelum = $history->toArray();
+
                 $history->fill($request->only([
                     'nama_lengkap',
                     'email',
@@ -471,6 +473,15 @@ Indonesia
                 ]));
             
                 $history->save();
+
+                $dataSesudah = $history->toArray();
+
+                RiwayatData::create([
+                    'history_id' => $id,
+                    'data_sebelum' => $dataSebelum,
+                    'data_sesudah' => $dataSesudah,
+                    'datetime' => now(),
+                ]);
 
                 return response()->json([
                     'status' => 200,

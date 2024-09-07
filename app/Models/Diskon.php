@@ -18,6 +18,7 @@ class Diskon extends Model
         'potongan_harga',
         'tanggal_mulai',
         'tanggal_selesai',
+        'is_hidden',
     ];
 
     protected static function boot()

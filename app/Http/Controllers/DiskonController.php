@@ -41,6 +41,7 @@ class DiskonController extends Controller
             'potongan_harga' => 'required|int|max:20',
             'tanggal_mulai' => 'required|date',
             'tanggal_selesai' => 'required|date',
+            'is_hidden' => 'required|boolean',
         ]);
 
         if($validator->fails()){
@@ -61,6 +62,7 @@ class DiskonController extends Controller
                 'potongan_harga' => $request->potongan_harga,
                 'tanggal_mulai' => $request->tanggal_mulai,
                 'tanggal_selesai' => $request->tanggal_selesai,
+                'is_hidden' => $request->is_hidden,
             ]);
 
             $users = User::where('peran', 'user')->get(); // Get all users with role 'user'
@@ -138,6 +140,7 @@ Indonesia
                         "tanggal_mulai" => $diskon->tanggal_mulai,
                         "tanggal_selesai" => $diskon->tanggal_selesai,
                         "kode_diskon" => $diskon->kode_diskon,
+                        "is_hidden" => $diskon->is_hidden,
                         "updated_at" => $diskon->updated_at,
                         "created_at" => $diskon->created_at,
                     ],
@@ -175,6 +178,7 @@ Indonesia
             'potongan_harga' => 'int|max:20',
             'tanggal_mulai' => 'date',
             'tanggal_selesai' => 'date',
+            'is_hidden' => 'boolean',
         ]);
 
         if($validator->fails()){
@@ -198,6 +202,7 @@ Indonesia
                     'potongan_harga',
                     'tanggal_mulai',
                     'tanggal_selesai',
+                    'is_hidden',
                 ]));
             
                 $diskon->save();
