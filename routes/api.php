@@ -11,6 +11,8 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\FacebookController;
+use App\Http\Controllers\KeuanganController;
+use App\Http\Controllers\RiwayatDataController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -90,6 +92,22 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::post('/create', [NotificationController::class, 'store']);
         Route::post('/edit/{id}', [NotificationController::class, 'update']);
         Route::delete('/delete/{id}', [NotificationController::class, 'destroy']);
+    });
+
+    Route::group(["prefix" => "/keuangan"], function(){
+        Route::get('/all', [KeuanganController::class, 'index']);
+        Route::get('/detail/{id}', [KeuanganController::class, 'show']);
+        Route::post('/create', [KeuanganController::class, 'store']);
+        Route::post('/edit/{id}', [KeuanganController::class, 'update']);
+        Route::delete('/delete/{id}', [KeuanganController::class, 'destroy']);
+    });
+
+    Route::group(["prefix" => "/riwayat-data"], function(){
+        Route::get('/all', [RiwayatDataController::class, 'index']);
+        Route::get('/detail/{id}', [RiwayatDataController::class, 'show']);
+        Route::post('/create', [RiwayatDataController::class, 'store']);
+        Route::post('/edit/{id}', [RiwayatDataController::class, 'update']);
+        Route::delete('/delete/{id}', [RiwayatDataController::class, 'destroy']);
     });
 
     Route::group(["prefix" => "/invoice"], function(){
