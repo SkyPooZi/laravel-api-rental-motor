@@ -11,7 +11,7 @@ class KeuanganController extends Controller
 {
     public function index()
     {
-        $keuangan = Keuangan::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
+        $keuangan = Keuangan::with(['history.user', 'history.listMotor', 'history.diskon', 'history.ulasan'])->get();
 
         if($keuangan->count() > 0) {
             return response()->json([
@@ -85,7 +85,7 @@ class KeuanganController extends Controller
 
     public function show($id)
     {
-        $keuangan = Keuangan::with(['user', 'listMotor', 'diskon', 'ulasan'])->find($id);
+        $keuangan = Keuangan::with(['history.user', 'history.listMotor', 'history.diskon', 'history.ulasan'])->find($id);
 
         if($keuangan) {
             return response()->json([

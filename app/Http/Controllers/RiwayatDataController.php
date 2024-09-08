@@ -11,12 +11,27 @@ class RiwayatDataController extends Controller
 {
     public function index()
     {
-        $riwayatData = RiwayatData::with(['user', 'listMotor', 'diskon', 'ulasan'])->get();
+        $riwayatData = RiwayatData::with(['user', 'history.user', 'history.listMotor', 'history.diskon', 'history.ulasan'])->get();
 
         if($riwayatData->count() > 0) {
+            $formattedData = $riwayatData->map(function ($data) {
+                return [
+                    "id" => $data->id,
+                    "pengguna_id" => $data->pengguna_id,
+                    "history_id" => $data->history_id,
+                    "data_sebelum" => json_decode($data->data_sebelum, true),
+                    "data_sesudah" => json_decode($data->data_sesudah, true),
+                    "datetime" => $data->datetime,
+                    "user" => $data->user,
+                    "history" => $data->history,
+                    "updated_at" => $data->updated_at,
+                    "created_at" => $data->created_at,
+                ];
+            });
+
             return response()->json([
                 'status' => 200,
-                'riwayatData' => $riwayatData,
+                'riwayatData' => $formattedData,
             ], 200);
         } else {
             return response()->json([
@@ -76,12 +91,23 @@ class RiwayatDataController extends Controller
 
     public function show($id)
     {
-        $riwayatData = RiwayatData::with(['user', 'listMotor', 'diskon', 'ulasan'])->find($id);
+        $riwayatData = RiwayatData::with(['user', 'history.user', 'history.listMotor', 'history.diskon', 'history.ulasan'])->find($id);
 
         if($riwayatData) {
             return response()->json([
                 'status' => 200,
-                'riwayatData' => $riwayatData,
+                'riwayatData' => [
+                    "id" => $riwayatData->id,
+                    "pengguna_id" => $riwayatData->pengguna_id,
+                    "history_id" => $riwayatData->history_id,
+                    "data_sebelum" => json_decode($data->data_sebelum, true),
+                    "data_sesudah" => json_decode($data->data_sesudah, true),
+                    "datetime" => $riwayatData->datetime,
+                    "user" => $riwayatData->user,
+                    "history" => $riwayatData->history,
+                    "updated_at" => $riwayatData->updated_at,
+                    "created_at" => $riwayatData->created_at,
+                ],
             ], 200);
         } else {
             return response()->json([
