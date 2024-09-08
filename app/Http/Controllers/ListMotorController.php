@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\ListMotor;
 use Illuminate\Http\Request;
+use App\Models\RiwayatData;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 
