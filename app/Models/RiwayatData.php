@@ -23,6 +23,10 @@ class RiwayatData extends Model
         return $this->belongsTo(User::class, 'pengguna_id');
     }
 
+    public function history() {
+        return $this->belongsTo(History::class, 'history_id');
+    }
+
     public function listMotor() {
         return $this->belongsTo(ListMotor::class, 'motor_id');
     }
