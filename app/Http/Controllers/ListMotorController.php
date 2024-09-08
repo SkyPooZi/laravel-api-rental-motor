@@ -164,7 +164,7 @@ class ListMotorController extends Controller
     public function update(Request $request, int $id)
     {
         $validator = Validator::make($request->all(), [
-            'pengguna_id' => '',
+            'pengguna_id' => 'required',
             'gambar_motor' => 'file|image|max:2048',
             'nama_motor' => 'string|max:191',
             'tipe_motor' => 'string|max:191',

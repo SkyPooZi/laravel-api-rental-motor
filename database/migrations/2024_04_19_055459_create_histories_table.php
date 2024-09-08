@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('penyewa');
             $table->foreignId('motor_id');
             $table->datetime('tanggal_mulai');
-            $table->string('durasi');
+            $table->int('durasi');
             $table->datetime('tanggal_selesai');
             $table->string('keperluan_menyewa');
             $table->string('penerimaan_motor');
