@@ -479,8 +479,8 @@ Indonesia
 
                 RiwayatData::create([
                     'history_id' => $id,
-                    'data_sebelum' => $dataSebelum,
-                    'data_sesudah' => $dataSesudah,
+                    'data_sebelum' => json_encode($dataSebelum),
+                    'data_sesudah' => json_encode($dataSesudah),
                     'datetime' => now(),
                 ]);
 

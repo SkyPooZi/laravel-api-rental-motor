@@ -217,8 +217,8 @@ class ListMotorController extends Controller
 
                 RiwayatData::create([
                     'pengguna_id' => $request->pengguna_id,
-                    'data_sebelum' => $dataSebelum,
-                    'data_sesudah' => $dataSesudah,
+                    'data_sebelum' => json_encode($dataSebelum),
+                    'data_sesudah' => json_encode($dataSesudah),
                     'datetime' => now(),
                 ]);
 

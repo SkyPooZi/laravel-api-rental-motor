@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pengguna_id')->nullable();
             $table->foreignId('history_id')->nullable();
-            $table->string('data_sebelum');
-            $table->string('data_sesudah');
+            $table->text('data_sebelum');
+            $table->text('data_sesudah');
             $table->datetime('datetime');
             $table->timestamps();
         });
