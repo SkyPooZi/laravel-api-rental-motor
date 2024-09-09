@@ -485,8 +485,8 @@ Indonesia
                     'datetime' => now(),
                 ]);
 
-                if($riwayatData->data_sebelum->total_pembayaran !== $riwayatData->data_sesudah->total_pembayaran) {
-                    $total_biaya = $riwayatData->data_sebelum->total_pembayaran - $riwayatData->data_sesudah->total_pembayaran;
+                if($riwayatData['data_sebelum'][0]['total_pembayaran'] !== $riwayatData['data_sesudah'][0]['total_pembayaran']) {
+                    $total_biaya = $riwayatData['data_sebelum'][0]['total_pembayaran'] - $riwayatData['data_sesudah'][0]['total_pembayaran'];
                     
                     $admin = User::find(1);
 
