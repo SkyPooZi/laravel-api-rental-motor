@@ -484,12 +484,13 @@ Indonesia
                     'data_sesudah' => json_encode($dataSesudah),
                     'datetime' => now(),
                 ]);
+
                 $dataSebelumDecoded = json_decode($riwayatData['data_sebelum'], true);
                 $dataSesudahDecoded = json_decode($riwayatData['data_sesudah'], true);
-                
-                if ($dataSebelumDecoded[0]['total_pembayaran'] !== $dataSesudahDecoded[0]['total_pembayaran']) {
-                    $total_biaya = $dataSebelumDecoded[0]['total_pembayaran'] - $dataSesudahDecoded[0]['total_pembayaran'];
-                    
+
+                if ($dataSebelumDecoded['total_pembayaran'] !== $dataSesudahDecoded['total_pembayaran']) {
+                    $total_biaya = $dataSebelumDecoded['total_pembayaran'] - $dataSesudahDecoded['total_pembayaran'];
+
                     $admin = User::find(1);
 
                     if($total_biaya > 0) {
