@@ -489,14 +489,18 @@ Indonesia
                 $dataSesudahDecoded = json_decode($riwayatData['data_sesudah'], true);
 
                 if ($dataSebelumDecoded['total_pembayaran'] !== $dataSesudahDecoded['total_pembayaran']) {
-                    $total_biaya = $dataSebelumDecoded['total_pembayaran'] - $dataSesudahDecoded['total_pembayaran'];
+                    $total = $dataSebelumDecoded['total_pembayaran'] - $dataSesudahDecoded['total_pembayaran'];
 
                     $admin = User::find(1);
 
-                    if($total_biaya > 0) {
-                        $pesan = "Dikarena ada perubahan data motor yang di sewa, Pemilik Sewa harus mengembalikan dana sebesar Rp" . $total_biaya . " kepada" . $history->nama_lengkap . ". Silahkan hubungi Pemilik Sewa untuk pengembalian dana " . $admin->nomor_hp;
+                    if($total > 0) {
+                        $total_biaya = abs($dataSebelumDecoded['total_pembayaran'] - $dataSesudahDecoded['total_pembayaran']);
+                        $total_biaya_formatted = "Rp " . number_format($total_biaya, 0, ',', '.');
+                        $pesan = "Dikarena ada perubahan data motor yang di sewa, Pemilik Sewa harus mengembalikan dana sebesar " . $total_biaya_formatted . " kepada " . $history->nama_lengkap . ". Silahkan hubungi Pemilik Sewa untuk pengembalian dana " . $admin->nomor_hp;
                     } else {
-                        $pesan = "Dikarena ada perubahan data motor yang di sewa, " . $history->nama_lengkap . "harus membayarkan dana sebesar Rp" . $total_biaya . " kepada Pemilik Sewa ketika motor diantar atau diambil.";
+                        $total_biaya = abs($dataSesudahDecoded['total_pembayaran'] - $dataSebelumDecoded['total_pembayaran']);
+                        $total_biaya_formatted = "Rp " . number_format($total_biaya, 0, ',', '.');
+                        $pesan = "Dikarena ada perubahan data motor yang di sewa, " . $history->nama_lengkap . " harus membayarkan dana sebesar " . $total_biaya_formatted . " kepada Pemilik Sewa ketika motor diantar atau diambil.";
                     }
 
                     $notification = NotificationDana::create([
