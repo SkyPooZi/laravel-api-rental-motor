@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\History;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\NotificationDana;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Mail\NotificationMail;
@@ -477,12 +478,77 @@ Indonesia
 
                 $dataSesudah = $history->toArray();
 
-                RiwayatData::create([
+                $riwayatData = RiwayatData::create([
                     'history_id' => $id,
                     'data_sebelum' => json_encode($dataSebelum),
                     'data_sesudah' => json_encode($dataSesudah),
                     'datetime' => now(),
                 ]);
+
+                if($riwayatData->data_sebelum->total_pembayaran !== $riwayatData->data_sesudah->total_pembayaran) {
+                    $total_biaya = $riwayatData->data_sebelum->total_pembayaran - $riwayatData->data_sesudah->total_pembayaran;
+                    
+                    $admin = User::find(1);
+
+                    if($total_biaya > 0) {
+                        $pesan = "Dikarena ada perubahan data motor yang di sewa, Pemilik Sewa harus mengembalikan dana sebesar Rp" . $total_biaya . " kepada" . $history->nama_lengkap . ". Silahkan hubungi Pemilik Sewa untuk pengembalian dana " . $admin->nomor_hp;
+                    } else {
+                        $pesan = "Dikarena ada perubahan data motor yang di sewa, " . $history->nama_lengkap . "harus membayarkan dana sebesar Rp" . $total_biaya . " kepada Pemilik Sewa ketika motor diantar atau diambil.";
+                    }
+
+                    $notification = NotificationDana::create([
+                        'pengguna_id' => $history->pengguna_id,
+                        'riwayat_id' => $riwayatData->id,
+                        'pesan' => $pesan,
+                        'datetime' => now(),
+                        'is_hidden' => 0,
+                    ]);
+
+                    $formattedMessage = "
+*Notifkasi Rental Motor Kudus*
+
+------------------------------------------------------------------------------------------
+
+$pesan
+
+Terima Kasih,
+Rental Motor Kudus
+
+------------------------------------------------------------------------------------------
+
+Rental Motor Kudus
+Trengguluh, Honggosoco, Kec. Jekulo, Kabupaten Kudus, Jawa Tengah
+Indonesia
+";
+
+                    try {
+                        $sid    = env('TWILIO_SID');
+                        $token  = env('TWILIO_AUTH_TOKEN');
+                        $twilio = new Client($sid, $token);
+
+                        $twilio->messages->create(
+                            "whatsapp:$history->nomor_hp",
+                            [
+                                "from" => env('TWILIO_WHATSAPP_FROM'),
+                                "body" => $formattedMessage
+                            ]
+                        );
+
+                        $twilio->messages->create(
+                            "whatsapp:$admin->nomor_hp",
+                            [
+                                "from" => env('TWILIO_WHATSAPP_FROM'),
+                                "body" => $formattedMessage
+                            ]
+                        );
+                    } catch (\Exception $e) {
+                        return response()->json([
+                            'status' => 500,
+                            'message' => 'WhatsApp notifikasi gagal dikirim.',
+                            'error' => $e->getMessage(),
+                        ], 500);
+                    }
+                }
 
                 return response()->json([
                     'status' => 200,

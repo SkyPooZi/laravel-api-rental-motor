@@ -8,6 +8,7 @@ use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\NotificationDanaController;
 use App\Http\Controllers\OTPController;
 use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\FacebookController;
@@ -94,6 +95,14 @@ Route::middleware('auth:sanctum')->group(function() {
         Route::delete('/delete/{id}', [NotificationController::class, 'destroy']);
     });
 
+    Route::group(["prefix" => "/notification-dana"], function(){
+        Route::get('/all', [NotificationDanaController::class, 'index']);
+        Route::get('/detail/{id}', [NotificationDanaController::class, 'show']);
+        Route::post('/create', [NotificationDanaController::class, 'store']);
+        Route::post('/edit/{id}', [NotificationDanaController::class, 'update']);
+        Route::delete('/delete/{id}', [NotificationDanaController::class, 'destroy']);
+    });
+
     Route::group(["prefix" => "/keuangan"], function(){
         Route::get('/all', [KeuanganController::class, 'index']);
         Route::get('/detail/{id}', [KeuanganController::class, 'show']);
@@ -105,6 +114,8 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::group(["prefix" => "/riwayat-data"], function(){
         Route::get('/all', [RiwayatDataController::class, 'index']);
         Route::get('/detail/{id}', [RiwayatDataController::class, 'show']);
+        Route::get('/detail-list-motor/{id}', [RiwayatDataController::class, 'showListMotor']);
+        Route::get('/detail-history/{id}', [RiwayatDataController::class, 'showHistory']);
         Route::post('/create', [RiwayatDataController::class, 'store']);
         Route::post('/edit/{id}', [RiwayatDataController::class, 'update']);
         Route::delete('/delete/{id}', [RiwayatDataController::class, 'destroy']);

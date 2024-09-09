@@ -26,6 +26,7 @@ class TabelUserSeeder extends Seeder
             'nama_pengguna' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => $admin,
+            'nomor_hp' => '+6285866200334',
             'peran' => 'admin',
         ]);
 
