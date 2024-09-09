@@ -5,19 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RiwayatData extends Model
+class NotificationDana extends Model
 {
     use HasFactory;
 
-    protected $table = 'riwayat_data';
-
+    protected $table = 'notification_danas';
+    
     protected $fillable = [
         'pengguna_id',
-        'motor_id',
-        'history_id',
-        'data_sebelum',
-        'data_sesudah',
+        'riwayat_id',
+        'pesan',
         'datetime',
+        'is_hidden',
     ];
 
     public function user() {
@@ -38,5 +37,9 @@ class RiwayatData extends Model
 
     public function ulasan() {
         return $this->belongsTo(UserReview::class, 'ulasan_id');
+    }
+
+    public function riwayatData() {
+        return $this->belongsTo(RiwayatData::class, 'riwayat_id');
     }
 }

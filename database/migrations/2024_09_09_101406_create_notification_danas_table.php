@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('riwayat_data', function (Blueprint $table) {
+        Schema::create('notification_danas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pengguna_id')->nullable();
-            $table->foreignId('motor_id')->nullable();
-            $table->foreignId('history_id')->nullable();
-            $table->text('data_sebelum');
-            $table->text('data_sesudah');
+            $table->foreignId('riwayat_id')->nullable();
+            $table->string('pesan');
             $table->datetime('datetime');
+            $table->boolean('is_hidden')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('riwayat_data');
+        Schema::dropIfExists('notification_danas');
     }
 };
