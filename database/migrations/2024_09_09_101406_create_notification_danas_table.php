@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('pengguna_id')->nullable();
             $table->foreignId('riwayat_id')->nullable();
             $table->string('pesan');
+            $table->string('total_biaya');
             $table->datetime('datetime');
             $table->boolean('is_hidden')->default(false);
             $table->timestamps();

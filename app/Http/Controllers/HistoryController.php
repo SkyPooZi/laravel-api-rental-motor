@@ -507,6 +507,7 @@ Indonesia
                         'pengguna_id' => $history->pengguna_id,
                         'riwayat_id' => $riwayatData->id,
                         'pesan' => $pesan,
+                        'total_biaya' => $total_biaya_formatted,
                         'datetime' => now(),
                         'is_hidden' => 0,
                     ]);
