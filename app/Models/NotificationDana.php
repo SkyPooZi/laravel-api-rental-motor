@@ -15,6 +15,7 @@ class NotificationDana extends Model
         'pengguna_id',
         'riwayat_id',
         'pesan',
+        'total_biaya',
         'datetime',
         'is_hidden',
     ];
