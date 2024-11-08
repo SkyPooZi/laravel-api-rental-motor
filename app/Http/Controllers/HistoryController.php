@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\History;
-use App\Models\Notification;
-use App\Models\User;
-use App\Models\NotificationDana;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use App\Mail\NotificationMail;
-use App\Models\RiwayatData;
-use Illuminate\Support\Facades\Mail;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Lang;
+use App\Models\User;
+use App\Models\History;
 use Twilio\Rest\Client;
+use App\Models\RiwayatData;
+use App\Models\Notification;
+use Illuminate\Http\Request;
+use App\Mail\NotificationMail;
+use App\Models\NotificationDana;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class HistoryController extends Controller
 {
@@ -164,7 +164,7 @@ class HistoryController extends Controller
 
     private function notifyPendingPaymentStatus()
     {
-        \Log::info('Schedule Notification Menunggu Pembayaran: ' . now());
+        Log::info('Schedule Notification Menunggu Pembayaran: ' . now());
         $histories = History::where('status_history', 'Menunggu Pembayaran')
             ->where('created_at', '<', Carbon::now()->subHours(22))
             ->get();
@@ -179,12 +179,12 @@ class HistoryController extends Controller
                 $this->sendNotification($history, $pesan);
             }
         }
-        \Log::info('Schedule Notification Menunggu Pembayaran Stop: ' . now());
+        Log::info('Schedule Notification Menunggu Pembayaran Stop: ' . now());
     }
 
     private function notifyOrderedStatus()
     {
-        \Log::info('Schedule Notification Dipesan: ' . now());
+        Log::info('Schedule Notification Dipesan: ' . now());
         $histories = History::where('status_history', 'Dipesan')
             ->where('tanggal_mulai', '<=', Carbon::now()->addHours(2))
             ->get();
@@ -199,12 +199,12 @@ class HistoryController extends Controller
                 $this->sendNotification($history, $pesan);
             }
         }
-        \Log::info('Schedule Notification Dipesan Stop: ' . now());
+        Log::info('Schedule Notification Dipesan Stop: ' . now());
     }
 
     private function notifyInUseStatus()
     {
-        \Log::info('Schedule Notification Sedang Digunakan: ' . now());
+        Log::info('Schedule Notification Sedang Digunakan: ' . now());
         $histories = History::where('status_history', 'Sedang Digunakan')
             ->where('tanggal_selesai', '<=', Carbon::now()->addHours(2))
             ->get();
@@ -219,12 +219,12 @@ class HistoryController extends Controller
                 $this->sendNotification($history, $pesan);
             }
         }
-        \Log::info('Schedule Notification Sedang Digunakan Stop: ' . now());
+        Log::info('Schedule Notification Sedang Digunakan Stop: ' . now());
     }
 
     private function sendNotification($history, $pesan)
     {
-        \Log::info('Schedule Notification ' . $history->status_history . ' Running: ' . now());
+        Log::info('Schedule Notification ' . $history->status_history . ' Running: ' . now());
         $nomor_hp = $history->nomor_hp;
 
         $formattedMessage = "
@@ -284,13 +284,13 @@ Indonesia
             'pesan' => $pesan,
         ]);
 
-        \Log::info('Notification Create Data: ' . $notification);
-        \Log::info('Schedule Notification Stop: ' . now());
+        Log::info('Notification Create Data: ' . $notification);
+        Log::info('Schedule Notification Stop: ' . now());
     }
 
     private function updatePendingPaymentStatus()
     {
-        \Log::info('Schedule Update Status Menunggu Pembayaran: ' . now());
+        Log::info('Schedule Update Status Menunggu Pembayaran: ' . now());
         $pendingHistories = History::where('status_history', 'Menunggu Pembayaran')
             ->where('created_at', '<', Carbon::now()->subDay())
             ->get();
@@ -298,14 +298,14 @@ Indonesia
         foreach ($pendingHistories as $history) {
             $history->status_history = 'Dibatalkan';
             $history->save();
-            \Log::info('Notification Update Status Menunggu Pembayara Data: ' . $history);
+            Log::info('Notification Update Status Menunggu Pembayara Data: ' . $history);
         }
-        \Log::info('Schedule Update Status Menunggu Pembayaran Stop: ' . now());
+        Log::info('Schedule Update Status Menunggu Pembayaran Stop: ' . now());
     }
 
     private function updateOrderedStatus()
     {
-        \Log::info('Schedule Update Status Dipesan: ' . now());
+        Log::info('Schedule Update Status Dipesan: ' . now());
         $orderedHistories = History::where('status_history', 'Dipesan')
             ->where('tanggal_mulai', '<=', Carbon::now())
             ->get();
@@ -313,14 +313,14 @@ Indonesia
         foreach ($orderedHistories as $history) {
             $history->status_history = 'Sedang Digunakan';
             $history->save();
-            \Log::info('Notification Update Status Dipesan Data: ' . $history);
+            Log::info('Notification Update Status Dipesan Data: ' . $history);
         }
-        \Log::info('Schedule Update Status Dipesan Stop: ' . now());
+        Log::info('Schedule Update Status Dipesan Stop: ' . now());
     }
 
     private function updateInUseStatus()
     {
-        \Log::info('Schedule Update Status Sedang Digunakan: ' . now());
+        Log::info('Schedule Update Status Sedang Digunakan: ' . now());
         $inUseHistories = History::where('status_history', 'Sedang Digunakan')
             ->where('tanggal_selesai', '<=', Carbon::now())
             ->get();
@@ -335,9 +335,9 @@ Indonesia
             }
 
             $history->save();
-            \Log::info('Notification Update Status Sedang Digunakan Data: ' . $history);
+            Log::info('Notification Update Status Sedang Digunakan Data: ' . $history);
         }
-        \Log::info('Schedule Update Status Sedang Digunakan Stop: ' . now());
+        Log::info('Schedule Update Status Sedang Digunakan Stop: ' . now());
     }
 
     public function getFilteredStatusHistory(Request $request)

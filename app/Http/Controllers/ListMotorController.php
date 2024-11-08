@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\RiwayatData;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class ListMotorController extends Controller
 {
@@ -126,7 +127,7 @@ class ListMotorController extends Controller
 
     public function updateAvailableStatus()
     {
-        \Log::info('Schedule Update Status Tersedia ' . now());
+        Log::info('Schedule Update Status Tersedia ' . now());
         $listMotor = ListMotor::where('tanggal_selesai_tidak_tersedia', '<', now())
             ->where('status_motor', '!=', 'Tersedia')
             ->get();
@@ -136,9 +137,9 @@ class ListMotorController extends Controller
             $motor->tanggal_mulai_tidak_tersedia = null;
             $motor->tanggal_selesai_tidak_tersedia = null;
             $motor->save();
-            \Log::info('Schedule Update Status Tersedia: ' . $motor);
+            Log::info('Schedule Update Status Tersedia: ' . $motor);
         }
-        \Log::info('Schedule Update Status Tersedia Stop: ' . now());
+        Log::info('Schedule Update Status Tersedia Stop: ' . now());
     }
 
     public function updateDate(int $id)
