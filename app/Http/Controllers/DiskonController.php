@@ -11,8 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Lang;
-use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Log;
 
 class DiskonController extends Controller
 {
@@ -118,7 +117,7 @@ Indonesia
 
                     Mail::to($user->email)->send(new NotificationMail($mailData));
                 } catch (\Exception $e) {
-                    \Log::error("Email notifikasi gagal dikirim ke {$user->email}: " . $e->getMessage());
+                    Log::error("Email notifikasi gagal dikirim ke {$user->email}: " . $e->getMessage());
                 }
 
                 $notifikasi = Notification::create([

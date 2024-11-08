@@ -4,6 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Support\Facades\Log;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,14 +14,14 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule): void
     {
         $schedule->call(function () {
-            \Log::info('Schedule running: ' . now());
-            \Log::info('Schedule History running: ' . now());
+            Log::info('Schedule running: ' . now());
+            Log::info('Schedule History running: ' . now());
             app(\App\Http\Controllers\HistoryController::class)->updateStatuses();
-            \Log::info('Schedule History stop: ' . now());
-            \Log::info('Schedule List Motor running: ' . now());
+            Log::info('Schedule History stop: ' . now());
+            Log::info('Schedule List Motor running: ' . now());
             app(\App\Http\Controllers\ListMotorController::class)->updateMotorStatus();
-            \Log::info('Schedule List Motor stop: ' . now());
-            \Log::info('Schedule Stop: ' . now());
+            Log::info('Schedule List Motor stop: ' . now());
+            Log::info('Schedule Stop: ' . now());
         })->everyMinute();
     }
 

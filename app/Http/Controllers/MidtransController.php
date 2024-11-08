@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Midtrans;
 use Illuminate\Http\Request;
-use Midtrans\Notification;
 use Midtrans\Config;
 use Midtrans\Snap;
 use App\Models\History;

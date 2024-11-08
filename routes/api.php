@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ListMotorController;
-use Illuminate\Http\Request;
 use App\Http\Controllers\DiskonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HistoryController;
